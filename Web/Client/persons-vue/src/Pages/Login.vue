@@ -8,14 +8,27 @@ var model = {
 };
 var loading = false;
 var rules = {};
-var login = false;
+
+var login = () => {
+  axios
+    .post("api/auth/login", { email: this.model.email, password: this.model.password })
+    .then((response) => {
+      localStorage.access_token = response.data.access_token;
+    });
+};
 </script>
 
 <template>
   <div class="login">
     <n-card>
       <h2>Вход в систему</h2>
-      <n-form class="login-form" :model="model" :rules="rules" ref="form">
+      <n-form
+        class="login-form"
+        :model="model"
+        :rules="rules"
+        ref="form"
+        @submit.native.prevent="login"
+      >
         <n-form-item prop="username">
           <n-input
             v-model="model.email"
