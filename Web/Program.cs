@@ -18,6 +18,18 @@ namespace Web
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("Policy1", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    //.WithMethods("POST", "GET", "PUT", "DELETE")
+                    .AllowAnyHeader();
+                });
+            });
+
+
             builder.Services.AddScoped<IIdentityService, IdentityService>();
             builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
@@ -30,6 +42,7 @@ namespace Web
                 app.UseSwaggerUI();
             }
 
+            app.UseCors();
             app.UseAuthorization();
             app.UseMiddleware<JwtMiddleware>();
 

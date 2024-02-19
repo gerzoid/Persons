@@ -1,7 +1,13 @@
 import axios from "axios";
-import router from "../router/index";
+import { useRouter, useRoute } from "vue-router";
+//import {router} from "vue-router";
 
-const api = axios.create();
+//var router = useRouter();
+
+const api = axios.create({
+  baseURL : 'http://localhost:5264',
+  
+});
 
 //start request
 api.interceptors.request.use(
@@ -22,6 +28,7 @@ api.interceptors.request.use(
 //start response
 api.interceptors.response.use(
   (config) => {
+    config.headers['Access-Control-Allow-Origin'] = '*';
     if (localStorage.access_token) {
       config.headers.authorization = `Bearer ${localStorage.access_token}`;
     }
@@ -53,7 +60,8 @@ api.interceptors.response.use(
     }
 
     if (error.response.status === 401) {
-      router.push("/login");
+      console.log('not logged');
+      //router.push("/login");
     }
   }
 );

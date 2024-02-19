@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Web.Helpers;
 
@@ -6,6 +7,7 @@ namespace Web.Controllers
     [ApiController]
     [Route("[controller]")]
     [Authorizze]
+    [EnableCors("Policy1")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
