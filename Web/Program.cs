@@ -45,6 +45,7 @@ namespace Web
             builder.Services.AddSwaggerGen();
             builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
+            builder.Services.AddScoped<RepoDbContext>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 

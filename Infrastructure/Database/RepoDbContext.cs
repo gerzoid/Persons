@@ -10,7 +10,7 @@ namespace Infrastructure.Database
 {
     public class RepoDbContext : DbServiceBase
     {
-        public RepoDbContext(SqlConnection connection) : base(connection)
+        public RepoDbContext(string connectionString) : base(connectionString)
         {
         }
 
