@@ -6,20 +6,31 @@ import { createPinia } from 'pinia'
 import Login from './Pages/Login.vue'
 import Weather from './Pages/Weather.vue'
 import App from './App.vue'
-
+import { useAuthStore } from "./stores/authStore";
 
 let Pinia = createPinia();
+var apps = createApp(App).use(Pinia);
 
-const routes = [
+const authStore = useAuthStore();
+
+const authGuard = (to, from, next) => {
+    if (authStore.isAuthenticated) {
+      next();
+    } else {
+      next("/login")
+    }
+  };
+
+  const routes = [
     { path: '/login', component: Login },
-    { path: '/', component: Weather },
-    { path: '/home', component: App },
-    { path: '/weather', component: Weather }
+    { path: '/', component: Weather, beforeEnter: authGuard },
+    { path: '/home', component: App, beforeEnter: authGuard},
+    { path: '/weather', component: Weather, beforeEnter: authGuard }
 ];
-
 const router = createRouter({
     routes,
     history: createWebHistory()
 });
 
-createApp(App).use(Pinia).use(router).mount('#app');
+
+apps.use(router).mount('#app');

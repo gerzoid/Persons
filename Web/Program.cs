@@ -1,5 +1,9 @@
 
+using Infrastructure.Database;
 using Infrastructure.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using Web.Helpers;
 using Web.Middleware;
 
@@ -13,36 +17,52 @@ namespace Web
 
             // Add services to the container.
 
+
+            //Глобальная ауентификация
+            /*builder.Services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("AppSettings").Get<AppSettings>().Secret);                
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });*/
+            
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddScoped<RepoDbContext>();
             builder.Services.AddSwaggerGen();
-
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("Policy1", policy =>
-                {
-                    policy.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    //.WithMethods("POST", "GET", "PUT", "DELETE")
-                    .AllowAnyHeader();
-                });
-            });
-
+            builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
             builder.Services.AddScoped<IIdentityService, IdentityService>();
-            builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseCors();
+            //Global cors
+            app.UseCors(x => x
+              .SetIsOriginAllowed(origin => true)
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials());
+            
             app.UseAuthorization();
             app.UseMiddleware<JwtMiddleware>();
 

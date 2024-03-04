@@ -25,9 +25,9 @@ const login = async () => {
       password: model.value.password,
     });
     localStorage.setItem("access_token", response.data.token);
-    console.log(authStore);
-    authStore.setUser(response.data);
-    router.push("/home");
+    //console.log(authStore);
+    //authStore.setUser(response.data);
+    router.push("/weather");
   } catch (error) {
     console.error(error);
   } finally {

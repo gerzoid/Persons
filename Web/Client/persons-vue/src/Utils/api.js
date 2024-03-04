@@ -6,10 +6,9 @@ import { useRouter, useRoute } from "vue-router";
 
 const api = axios.create({
   baseURL : 'http://localhost:5264',
-  
 });
 
-//start request
+
 api.interceptors.request.use(
   (config) => {
     if (localStorage.access_token) {
@@ -23,12 +22,11 @@ api.interceptors.request.use(
     console.log(error);
   }
 );
-//end request
 
-//start response
+
+
 api.interceptors.response.use(
   (config) => {
-    config.headers['Access-Control-Allow-Origin'] = '*';
     if (localStorage.access_token) {
       config.headers.authorization = `Bearer ${localStorage.access_token}`;
     }
@@ -37,10 +35,8 @@ api.interceptors.response.use(
   },
   (error) => {
     //Этот блок кода срабатывает когда прилетает ошибка с бэка
-
     if (error.response.data.message === "Token has expired") {
-      axios
-        .post(
+      axios.post(
           "api/auth/refresh",
           {},
           {

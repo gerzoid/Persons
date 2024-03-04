@@ -9,7 +9,6 @@ namespace Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("Policy1")]
     public class IdentityController : ControllerBase
     {
         [HttpPost("login")]
@@ -18,7 +17,7 @@ namespace Web.Controllers
         {
             var answer = userService.Authenticate(model);
             if (answer == null)
-                return Unauthorized();
+                return Unauthorized();            
             return Ok(answer);
         }
     }

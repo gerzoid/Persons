@@ -6,22 +6,22 @@ export const useAuthStore = defineStore('authStore', {
             { 
               name: null, //текущий клиент
               email: null,
-              token: null,
+              token: '',
               expiration: null,
             },
     }),
     getters: {
-        isAuthenticated: (state) => {
-            return this.token.length > 0 &&
-            this.expiration > Date.now();
+        isAuthenticated(){
+            return localStorage.getItem('access_token')?.length > 0;
           }
         },
     actions: {
        setUser(user){
-            this.name = user.name;
+            this.name = user.username;
             this.email = user.email;
             this.token = user.token;
             this.expiration = user.expiration;
+            console.log(this);
        }
     },
   })
