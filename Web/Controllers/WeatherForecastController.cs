@@ -10,15 +10,15 @@ namespace Web.Controllers
     [Route("[controller]")]
     [EnableCors]
     //[Authorize]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForeCastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private readonly ILogger<WeatherForeCastController> _logger;
+        public WeatherForeCastController(ILogger<WeatherForeCastController> logger)
         {         
             _logger = logger;
         }
