@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Database
+namespace Infrastructure.Database.RepoDb
 {
     public class RepoDbContext : DbServiceBase
     {
@@ -15,7 +15,8 @@ namespace Infrastructure.Database
         {
         }
 
-        public IEnumerable<T> Query<T>(string query) where T : class {
+        public IEnumerable<T> Query<T>(string query) where T : class
+        {
             return _connection.Query<T>(query);
         }
 

@@ -1,5 +1,5 @@
 using Domain.Entities;
-using Infrastructure.Database;
+using Infrastructure.Database.RepoDb;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,8 @@
-
-using Infrastructure.Database;
+using Infrastructure.Data.EntityFramework;
+using Infrastructure.Database.RepoDb;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RepoDb;
 using System.Globalization;
@@ -16,7 +17,7 @@ namespace Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+            //System.Globalization.CultureInfo.DefaultThreadCurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
             // Add services to the container.
 
@@ -40,15 +41,20 @@ namespace Web
                     ClockSkew = TimeSpan.Zero
                 };
             });*/
+            string connectionString = builder.Configuration.GetConnectionString("PrimaryDbConnection");
+            builder.Services.AddDbContext<PersonsDbContext>(options => { options.UseSqlServer(connectionString); } );
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddControllers();            
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddScoped<RepoDbContext>();
+            
+            #region RepoDb
+            //builder.Services.AddScoped<RepoDbContext>();
+            //GlobalConfiguration.Setup().UseSqlServer();
+            //builder.Services.AddScoped<RepoDbContext>();
+            #endregion
+            
             builder.Services.AddSwaggerGen();
             builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-            GlobalConfiguration.Setup().UseSqlServer();
-            builder.Services.AddScoped<RepoDbContext>();
             
             builder.Services.AddScoped<IIdentityService, IdentityService>();
 
