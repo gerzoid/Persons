@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PersonsDbContext))]
-    [Migration("20240417110532_Initial")]
+    [Migration("20240424004943_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -56,6 +56,52 @@ namespace Infrastructure.Migrations
                     b.HasKey("ListTableId");
 
                     b.ToTable("ListTables");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SettingsTables", b =>
+                {
+                    b.Property<int>("SettingsTableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SettingsTableId"));
+
+                    b.Property<string>("Field")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ListTableId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NameField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SettingsTableId");
+
+                    b.HasIndex("ListTableId", "Name");
+
+                    b.ToTable("SettingsTables");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SettingsTables", b =>
+                {
+                    b.HasOne("Domain.Entities.ListTables", "ListTable")
+                        .WithMany("Settings")
+                        .HasForeignKey("ListTableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ListTable");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ListTables", b =>
+                {
+                    b.Navigation("Settings");
                 });
 #pragma warning restore 612, 618
         }

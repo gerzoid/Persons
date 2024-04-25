@@ -11,6 +11,7 @@ namespace Domain.Entities
         public string? Description {  get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set;}
-        public DateTime? ExpiredAt { get; set; }
+        public DateTime? ExpiredAt { get; set; }        
+        public List<SettingsTables> Settings { get; set; }
     }
 }

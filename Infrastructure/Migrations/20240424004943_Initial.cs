@@ -28,11 +28,41 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ListTables", x => x.ListTableId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "SettingsTables",
+                columns: table => new
+                {
+                    SettingsTableId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ListTableId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Field = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NameField = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SettingsTables", x => x.SettingsTableId);
+                    table.ForeignKey(
+                        name: "FK_SettingsTables_ListTables_ListTableId",
+                        column: x => x.ListTableId,
+                        principalTable: "ListTables",
+                        principalColumn: "ListTableId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SettingsTables_ListTableId_Name",
+                table: "SettingsTables",
+                columns: new[] { "ListTableId", "Name" });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "SettingsTables");
+
             migrationBuilder.DropTable(
                 name: "ListTables");
         }

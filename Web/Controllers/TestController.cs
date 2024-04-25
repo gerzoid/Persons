@@ -16,16 +16,15 @@ namespace Web.Controllers
     {
 
         private readonly ILogger<TestController> _logger;
-        private readonly RepoDbContext _context;
-        public TestController(ILogger<TestController> logger, RepoDbContext context)
+        //private readonly RepoDbContext _context;
+        public TestController(ILogger<TestController> logger)
         {         
             _logger = logger;
-            _context = context;
         }
         [HttpGet("get-imports")]
         public IEnumerable<Imports> Get()
         {
-            var result = _context.QueryAll<Imports>();
+            var result = new List<Imports>();
             return result;
         }
     }

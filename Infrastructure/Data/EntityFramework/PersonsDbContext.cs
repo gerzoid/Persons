@@ -12,6 +12,10 @@ namespace Infrastructure.Data.EntityFramework
         
         
         public DbSet<ListTables> ListTables { get; set; }
+        public DbSet<SettingsTables> SettingsTables { get; set; }
 
     }
 }
+
+//dotnet ef migrations add Added_SettinsTable --context=PersonsDbContext --project=Infrastructure --startup-project=Web
+//dotnet ef database update --project=Infrastructure --startup-project=web

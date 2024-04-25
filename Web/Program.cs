@@ -1,6 +1,8 @@
+using Domain.Interfaces;
 using Infrastructure.Data.EntityFramework;
 using Infrastructure.Database.RepoDb;
 using Infrastructure.Identity;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -47,15 +49,16 @@ namespace Web
             builder.Services.AddControllers();            
             builder.Services.AddEndpointsApiExplorer();
             
+
             #region RepoDb
-            //builder.Services.AddScoped<RepoDbContext>();
-            //GlobalConfiguration.Setup().UseSqlServer();
-            //builder.Services.AddScoped<RepoDbContext>();
+            GlobalConfiguration.Setup().UseSqlServer();
             #endregion
             
             builder.Services.AddSwaggerGen();
             builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-            
+
+            builder.Services.AddScoped<IListTablesRepository, ListTableRepository>();
+            builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 
