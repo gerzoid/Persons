@@ -57,7 +57,7 @@ namespace Web
             builder.Services.AddSwaggerGen();
             builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
-            builder.Services.AddScoped<IListTablesRepository, ListTableRepository>();
+            builder.Services.AddScoped<ITablesRepository, ListTableRepository>();
             builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
 

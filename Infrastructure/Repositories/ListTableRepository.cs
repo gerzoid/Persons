@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class ListTableRepository : IListTablesRepository
+    public class ListTableRepository : ITablesRepository
     {
         private readonly PersonsDbContext _context;
 
@@ -22,18 +22,28 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public IEnumerable<ListTables> GetList()
+        public bool CreateTable(Tables table)
         {
-            return _context.Set<ListTables>().AsNoTracking().ToList();
+            throw new NotImplementedException();
         }
 
-        public ListTables? GetTable(int id)
+        public IEnumerable<Tables> GetList()
         {
-            return _context.Set<ListTables>()
+            return _context.Set<Tables>().AsNoTracking().ToList();
+        }
+
+        public Tables? GetTable(int id)
+        {
+            return _context.Set<Tables>()
                 .AsNoTracking()
                 .Include(u => u.Settings)
-                .Where(d => d.ListTableId == id)                
+                .Where(d => d.TableId == id)                
                 .FirstOrDefault();
+        }
+
+        public Tables? GetTableById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public void Test()

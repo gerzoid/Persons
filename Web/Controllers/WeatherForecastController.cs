@@ -19,9 +19,9 @@ namespace Web.Controllers
         };
 
         private readonly ILogger<WeatherForeCastController> _logger;
-        private readonly IListTablesRepository _tablesRepository;
+        private readonly ITablesRepository _tablesRepository;
         private readonly IPersonsRepository _personsRepository;
-        public WeatherForeCastController(ILogger<WeatherForeCastController> logger, IListTablesRepository repo, IPersonsRepository persons)
+        public WeatherForeCastController(ILogger<WeatherForeCastController> logger, ITablesRepository repo, IPersonsRepository persons)
         {         
             _logger = logger;
             _tablesRepository = repo;
@@ -32,7 +32,7 @@ namespace Web.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
             _personsRepository.Test();
-            var a = _tablesRepository.GetTable(1);
+            var a = _tablesRepository.GetTableById(1);
             Console.Write(a.TableName);
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

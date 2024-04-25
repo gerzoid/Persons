@@ -2,13 +2,14 @@
 
 namespace Domain.Entities
 {
-    public class ListTables
+    public class Tables
     {
         [Key]
-        public int ListTableId {  get; set; }
-        public string NameList { get; set; }
+        public int TableId {  get; set; }
+        public string Name { get; set; }
         public string TableName { get; set; }
         public string? Description {  get; set; }
+        public int CountRecords {  get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set;}
         public DateTime? ExpiredAt { get; set; }        

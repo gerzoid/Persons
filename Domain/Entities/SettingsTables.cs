@@ -9,7 +9,7 @@ namespace Domain.Entities
         [Key]
         public int SettingsTableId { get; set; }
         public int ListTableId { get; set; }
-        public ListTables ListTable { get; set; }
+        public Tables ListTable { get; set; }
 
         //Название настройки        
         public required string Name { get; set; }
