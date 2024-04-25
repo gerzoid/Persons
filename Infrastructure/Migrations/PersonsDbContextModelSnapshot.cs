@@ -22,39 +22,6 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Entities.ListTables", b =>
-                {
-                    b.Property<int>("ListTableId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ListTableId"));
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ExpiredAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NameList")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TableName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ListTableId");
-
-                    b.ToTable("ListTables");
-                });
-
             modelBuilder.Entity("Domain.Entities.SettingsTables", b =>
                 {
                     b.Property<int>("SettingsTableId")
@@ -85,9 +52,45 @@ namespace Infrastructure.Migrations
                     b.ToTable("SettingsTables");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Tables", b =>
+                {
+                    b.Property<int>("TableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TableId"));
+
+                    b.Property<int>("CountRecords")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ExpiredAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TableName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TableId");
+
+                    b.ToTable("ListTables");
+                });
+
             modelBuilder.Entity("Domain.Entities.SettingsTables", b =>
                 {
-                    b.HasOne("Domain.Entities.ListTables", "ListTable")
+                    b.HasOne("Domain.Entities.Tables", "ListTable")
                         .WithMany("Settings")
                         .HasForeignKey("ListTableId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -96,7 +99,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("ListTable");
                 });
 
-            modelBuilder.Entity("Domain.Entities.ListTables", b =>
+            modelBuilder.Entity("Domain.Entities.Tables", b =>
                 {
                     b.Navigation("Settings");
                 });

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Initials : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,18 +15,19 @@ namespace Infrastructure.Migrations
                 name: "ListTables",
                 columns: table => new
                 {
-                    ListTableId = table.Column<int>(type: "int", nullable: false)
+                    TableId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NameList = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TableName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountRecords = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ExpiredAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ListTables", x => x.ListTableId);
+                    table.PrimaryKey("PK_ListTables", x => x.TableId);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,7 +48,7 @@ namespace Infrastructure.Migrations
                         name: "FK_SettingsTables_ListTables_ListTableId",
                         column: x => x.ListTableId,
                         principalTable: "ListTables",
-                        principalColumn: "ListTableId",
+                        principalColumn: "TableId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
