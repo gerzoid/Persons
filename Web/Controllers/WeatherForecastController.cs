@@ -1,3 +1,4 @@
+using Application.Services;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -19,21 +20,19 @@ namespace Web.Controllers
         };
 
         private readonly ILogger<WeatherForeCastController> _logger;
-        private readonly ITablesRepository _tablesRepository;
-        private readonly IPersonsRepository _personsRepository;
-        public WeatherForeCastController(ILogger<WeatherForeCastController> logger, ITablesRepository repo, IPersonsRepository persons)
+        private readonly TablesService _tableService;
+        public WeatherForeCastController(ILogger<WeatherForeCastController> logger, TablesService tablesService)
         {         
             _logger = logger;
-            _tablesRepository = repo;
-            _personsRepository = persons;
+            _tableService = tablesService;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            _personsRepository.Test();
-            var a = _tablesRepository.GetTableById(1);
-            Console.Write(a.TableName);
+            var a = _tableService.GetTables();
+            Console.WriteLine(a.Count());
+            
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

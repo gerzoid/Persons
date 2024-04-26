@@ -9,12 +9,11 @@ namespace Domain.Interfaces
 {
     public interface ITablesRepository
     {
-        //Получить список всех таблиц
-        public IEnumerable<Tables> GetList();
+        //Получить список всех таблиц        
+        public IEnumerable<Tables> GetTables();
         //Получить всю информацию от таблице и её настройках
-        public Tables? GetTableById(int id);
-        
-        public bool CreateTable(Tables table);
+        public Tables? GetTableById(int id);        
+        public void AddTable(Tables table);
 
 
     }

@@ -74,6 +74,5 @@ namespace Infrastructure.Repositories
                 .Where(lambda)
                 .ToListAsync();
         }
-
     }
 }
