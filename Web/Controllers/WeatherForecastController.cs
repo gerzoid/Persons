@@ -30,8 +30,8 @@ namespace Web.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            var a = _tableService.GetTables();
-            Console.WriteLine(a.Count());
+            var a = _tableService.GetTable(3);
+            Console.WriteLine(a.Name);
             
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

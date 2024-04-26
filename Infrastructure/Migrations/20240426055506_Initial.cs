@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initials : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ListTables",
+                name: "Tables",
                 columns: table => new
                 {
                     TableId = table.Column<int>(type: "int", nullable: false)
@@ -27,7 +27,7 @@ namespace Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ListTables", x => x.TableId);
+                    table.PrimaryKey("PK_Tables", x => x.TableId);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,9 +45,9 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_SettingsTables", x => x.SettingsTableId);
                     table.ForeignKey(
-                        name: "FK_SettingsTables_ListTables_ListTableId",
+                        name: "FK_SettingsTables_Tables_ListTableId",
                         column: x => x.ListTableId,
-                        principalTable: "ListTables",
+                        principalTable: "Tables",
                         principalColumn: "TableId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -65,7 +65,7 @@ namespace Infrastructure.Migrations
                 name: "SettingsTables");
 
             migrationBuilder.DropTable(
-                name: "ListTables");
+                name: "Tables");
         }
     }
 }

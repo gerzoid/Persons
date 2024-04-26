@@ -14,7 +14,8 @@ namespace Application.Common.Mapper
     {
        public static void RegisterMapsterConfiguration(this IServiceCollection services)
         {
-            TypeAdapterConfig<Tables, TablesDto>.NewConfig().RequireDestinationMemberSource(true);
+            //TypeAdapterConfig<Tables, TablesDto>.NewConfig().RequireDestinationMemberSource(true);
+            //TypeAdapterConfig<SettingsTables, SettingsTablesDto>.NewConfig().RequireDestinationMemberSource(true);
         }
     }
 }

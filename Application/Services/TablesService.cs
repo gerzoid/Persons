@@ -13,9 +13,16 @@ namespace Application.Services
             _tablesRepo = tablesRepository;
         }
         public IEnumerable<TablesDto> GetTables()
-        {
-            return _tablesRepo.GetTables().Adapt<IEnumerable<Tables>, IEnumerable<TablesDto>>();
+        {            
+            return _tablesRepo
+                .GetTables()
+                .Adapt<IEnumerable<Tables>, IEnumerable<TablesDto>>();
         }
+        public TablesDto GetTable(int id)
+        {
+            return _tablesRepo.GetTableById(id).Adapt<Tables, TablesDto>();
+        }
+
         public void AddTable(TablesDto table)
         {
             var tab = table.Adapt<Tables>();

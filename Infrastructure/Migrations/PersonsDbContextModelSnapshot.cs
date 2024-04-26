@@ -85,7 +85,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("TableId");
 
-                    b.ToTable("ListTables");
+                    b.ToTable("Tables");
                 });
 
             modelBuilder.Entity("Domain.Entities.SettingsTables", b =>

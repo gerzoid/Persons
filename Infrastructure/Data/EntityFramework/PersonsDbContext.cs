@@ -11,7 +11,7 @@ namespace Infrastructure.Data.EntityFramework
         }
         
         
-        public DbSet<Tables> ListTables { get; set; }
+        public DbSet<Tables> Tables { get; set; }
         public DbSet<SettingsTables> SettingsTables { get; set; }
 
     }

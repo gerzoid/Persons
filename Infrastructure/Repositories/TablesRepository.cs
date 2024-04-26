@@ -44,7 +44,12 @@ namespace Infrastructure.Repositories
 
         public Tables? GetTableById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Set<Tables>()
+                .AsNoTracking()
+                .Include(u => u.Settings)
+                .Where(d => d.TableId == id)
+                .FirstOrDefault();
+
         }
 
     }

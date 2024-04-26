@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PersonsDbContext))]
-    [Migration("20240425060623_Initials")]
-    partial class Initials
+    [Migration("20240426055506_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,7 +88,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("TableId");
 
-                    b.ToTable("ListTables");
+                    b.ToTable("Tables");
                 });
 
             modelBuilder.Entity("Domain.Entities.SettingsTables", b =>
