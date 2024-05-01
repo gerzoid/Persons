@@ -9,6 +9,6 @@ namespace Domain.Interfaces
 {
     public interface IPersonsRepository
     {
-        public void Test();
+        public void ReadTable(string tableName);
     }
 }

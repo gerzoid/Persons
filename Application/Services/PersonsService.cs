@@ -9,7 +9,9 @@ namespace Application.Services
     {
         public PersonsService(ITablesRepository tablesRepository)
         {
+            public void ReadTable(string tableName) {
 
+            }
         }
     }
 }
