@@ -2,16 +2,24 @@
 using Domain.Entities;
 using Domain.Interfaces;
 using Mapster;
+using System.Data;
 
 namespace Application.Services
 {
     public class PersonsService
     {
-        public PersonsService(ITablesRepository tablesRepository)
+        private readonly ITablesRepository _tablesRepository;
+        private readonly IPersonsRepository _personsRepository;
+        public PersonsService(ITablesRepository tablesRepository, IPersonsRepository personsRepository)
         {
-            public void ReadTable(string tableName) {
-
-            }
+            _tablesRepository = tablesRepository;
+            _personsRepository = personsRepository;
         }
+        public DataTable ReadTable(string tableName)
+        {
+            var table = _personsRepository.ReadTable(tableName);
+            return table;
+        }
+
     }
 }

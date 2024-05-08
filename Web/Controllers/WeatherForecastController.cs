@@ -21,10 +21,12 @@ namespace Web.Controllers
 
         private readonly ILogger<WeatherForeCastController> _logger;
         private readonly TablesService _tableService;
-        public WeatherForeCastController(ILogger<WeatherForeCastController> logger, TablesService tablesService)
+        private readonly PersonsService _peopleService;
+        public WeatherForeCastController(ILogger<WeatherForeCastController> logger, TablesService tablesService, PersonsService personsService)
         {         
             _logger = logger;
             _tableService = tablesService;
+            _peopleService = personsService;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -32,6 +34,8 @@ namespace Web.Controllers
         {
             var a = _tableService.GetTable(3);
             Console.WriteLine(a.Name);
+            var t = _peopleService.ReadTable(a.TableName);
+            Console.WriteLine(t.Rows.Count);
             
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -42,5 +46,17 @@ namespace Web.Controllers
             })
             .ToArray();
         }
+        [HttpGet]
+        [Route("test")]
+        public ActionResult Test()
+        {
+            var a = _tableService.GetTable(3);
+            Console.WriteLine(a.Name);
+            var t = _peopleService.ReadTable(a.TableName);
+            Console.WriteLine(t.Rows.Count);
+
+            return Ok(t);
+        }
+
     }
 }

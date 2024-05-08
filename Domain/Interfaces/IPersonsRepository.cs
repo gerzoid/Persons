@@ -1,14 +1,9 @@
-﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 
 namespace Domain.Interfaces
 {
     public interface IPersonsRepository
     {
-        public void ReadTable(string tableName);
+        public DataTable ReadTable(string tableName);
     }
 }
