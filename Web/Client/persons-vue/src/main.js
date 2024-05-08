@@ -5,7 +5,7 @@ import { createPinia } from 'pinia'
 
 import Login from './Pages/Login.vue'
 import Weather from './Pages/Weather.vue'
-import App from './App.vue'
+import App from './Pages/App.vue'
 import { useAuthStore } from "./stores/authStore";
 
 let Pinia = createPinia();

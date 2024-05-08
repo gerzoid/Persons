@@ -23,8 +23,6 @@ api.interceptors.request.use(
   }
 );
 
-
-
 api.interceptors.response.use(
   (config) => {
     if (localStorage.access_token) {

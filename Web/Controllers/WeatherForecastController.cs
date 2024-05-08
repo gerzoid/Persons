@@ -55,7 +55,7 @@ namespace Web.Controllers
             var t = _peopleService.ReadTable(a.TableName);
             Console.WriteLine(t.Rows.Count);
 
-            return Ok(t);
+            return Ok( DataTableToJsonSerializer.SystemTextJson(t));
         }
 
     }
