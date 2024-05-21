@@ -71,3 +71,12 @@ const login = async () => {
     </n-card>
   </div>
 </template>
+<style scope="this api replaced by slot-scope in 2.5.0+">
+#app {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+</style>
