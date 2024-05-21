@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Dto
 {
-    internal class Filters
+    public class Filters
     {
+        public string Field {  get; set; }
+        public string Value { get; set; }
+        public string Operator { get; set; }
     }
 }
