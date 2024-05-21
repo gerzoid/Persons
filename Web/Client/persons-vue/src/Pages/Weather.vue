@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import api from "../Utils/api";
+import api from "../utils/api";
 
 var response = ref(null);
 

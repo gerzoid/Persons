@@ -1,7 +1,14 @@
 <script setup>
+import { onMounted } from "vue";
 import VerticalMenu from "../components/menu/VerticalMenu.vue";
 import HorizontalMenu from "../components/menu/HorizontalMenu.vue";
 import { NLayout } from "naive-ui";
+import { useTablesStore } from "../stores/tablesStore";
+
+const tablesStore = useTablesStore();
+onMounted(() => {
+  console.log(tablesStore.getTables());
+});
 </script>
 
 <template>
@@ -11,7 +18,6 @@ import { NLayout } from "naive-ui";
       <HorizontalMenu></HorizontalMenu>
       <n-layout has-sider style="height: 100%">
         <VerticalMenu></VerticalMenu>
-
       </n-layout>
     </n-layout>
   </div>

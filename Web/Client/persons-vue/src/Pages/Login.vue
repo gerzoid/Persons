@@ -4,7 +4,7 @@ import { useAuthStore } from "../stores/authStore";
 import { useRouter } from "vue-router";
 import { NCard, NForm, NFormItem, NInput, NButton, NIcon } from "naive-ui";
 import { User, Locked } from "@vicons/carbon";
-import api from "../Utils/api";
+import api from "../utils/api";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -37,42 +37,48 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="login">
-    <n-card>
-      <h2>Вход в систему</h2>
-      <n-form class="login-form" :rules="rules">
-        <n-form-item prop="username">
-          <n-input v-model:value="model.username" placeholder="Имя">
-            <template #prefix>
-              <n-icon :component="User"></n-icon>
-            </template>
-          </n-input>
-        </n-form-item>
-        <n-form-item prop="password">
-          <n-input v-model:value="model.password" placeholder="Password" type="password">
-            <template #prefix>
-              <n-icon :component="Locked"></n-icon>
-            </template>
-          </n-input>
-        </n-form-item>
-        <n-form-item>
-          <n-button
-            :loading="loading"
-            class="login-button"
-            type="primary"
-            @click="login"
-            block
-          >
-            Войти
-          </n-button>
-        </n-form-item>
-        <a class="forgot-password" href="#">Забыли пароль?</a>
-      </n-form>
-    </n-card>
+  <div style="display: flex">
+    <div class="login">
+      <n-card class="login-card">
+        <h2>Вход в систему</h2>
+        <n-form class="login-form" :rules="rules">
+          <n-form-item prop="username">
+            <n-input v-model:value="model.username" placeholder="Имя">
+              <template #prefix>
+                <n-icon :component="User"></n-icon>
+              </template>
+            </n-input>
+          </n-form-item>
+          <n-form-item prop="password">
+            <n-input
+              v-model:value="model.password"
+              placeholder="Password"
+              type="password"
+            >
+              <template #prefix>
+                <n-icon :component="Locked"></n-icon>
+              </template>
+            </n-input>
+          </n-form-item>
+          <n-form-item>
+            <n-button
+              :loading="loading"
+              class="login-button"
+              type="primary"
+              @click="login"
+              block
+            >
+              Войти
+            </n-button>
+          </n-form-item>
+          <a class="forgot-password" href="#">Забыли пароль?</a>
+        </n-form>
+      </n-card>
+    </div>
   </div>
 </template>
-<style scope="this api replaced by slot-scope in 2.5.0+">
-#app {
+<style scoped>
+.login {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -80,3 +86,4 @@ const login = async () => {
   justify-content: center;
 }
 </style>
+../utils/api
