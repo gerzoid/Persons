@@ -13,7 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
+/*a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
@@ -59,7 +59,7 @@ button:focus-visible {
 }
 
 #app {
-  max-width: 1280px;
+  height: 100vh;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -77,3 +77,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+*/
