@@ -20,14 +20,14 @@ let rules = ref({});
 const login = async () => {
   loading.value = true;
   try {
-    const response = await api.post("api/Identity/login", {
+    const response = await api.axios.post("api/Identity/login", {
       username: model.value.username,
       password: model.value.password,
     });
     localStorage.setItem("access_token", response.data.token);
     //console.log(authStore);
     //authStore.setUser(response.data);
-    router.push("/weather");
+    router.push("/");
   } catch (error) {
     console.error(error);
   } finally {
@@ -86,4 +86,3 @@ const login = async () => {
   justify-content: center;
 }
 </style>
-../utils/api

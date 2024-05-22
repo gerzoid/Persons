@@ -3,13 +3,10 @@ import { useRouter, useRoute } from "vue-router";
 
 
 export default class api{
-  
-  static get(url){
-    return axio.get(url);
-  }
-  
+
+  static axios = axio;
+
   static GetTables(){
     return axio.get("/api/tables", {params:{}});
   }
-
 }

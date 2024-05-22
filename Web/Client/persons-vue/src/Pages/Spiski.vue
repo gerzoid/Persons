@@ -1,42 +1,17 @@
 <script setup>
 import { onMounted } from "vue";
-import VerticalMenu from "../components/menu/VerticalMenu.vue";
-import HorizontalMenu from "../components/menu/HorizontalMenu.vue";
-import { NLayout } from "naive-ui";
+import Layout from "../components/layouts/Layout.vue";
 import { useTablesStore } from "../stores/tablesStore";
 
 const tablesStore = useTablesStore();
 onMounted(() => {
-  console.log(tablesStore.getTables());
+  tablesStore.getTables().then(response=>{console.log(response)});
 });
 </script>
 
 <template>
-  <div class="main">
     <router-view> </router-view>
-    <n-layout>
-      <HorizontalMenu></HorizontalMenu>
-      <n-layout has-sider style="height: 100%">
-        <VerticalMenu></VerticalMenu>
-      </n-layout>
-    </n-layout>
-  </div>
+    <Layout>
+    !!!!!!!!!!!!!
+    </Layout>
 </template>
-<style>
-.n-layout-header,
-.n-layout-footer {
-  background: rgba(128, 128, 128, 0.2);
-}
-div.main {
-  height: 100vh;
-  display: flex;
-}
-
-.n-layout-sider {
-  background: rgba(128, 128, 128, 0.3);
-}
-
-.n-layout-content {
-  background: rgba(128, 128, 128, 0.4);
-}
-</style>
