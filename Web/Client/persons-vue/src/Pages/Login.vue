@@ -27,7 +27,7 @@ const login = async () => {
     localStorage.setItem("access_token", response.data.token);
     //console.log(authStore);
     //authStore.setUser(response.data);
-    router.push("/");
+    router.push("/tables");
   } catch (error) {
     console.error(error);
   } finally {

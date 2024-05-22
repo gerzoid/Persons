@@ -2,14 +2,13 @@
 import VerticalMenu from "../menu/VerticalMenu.vue";
 import HorizontalMenu from "../menu/HorizontalMenu.vue";
 import { NLayout } from "naive-ui";
-
 </script>
 
 <template>
   <div class="main">
     <router-view> </router-view>
     <n-layout>
-      <HorizontalMenu></HorizontalMenu>
+      <!--<HorizontalMenu></HorizontalMenu>-->
       <n-layout has-sider style="height: 100%">
         <VerticalMenu></VerticalMenu>
         <slot></slot>

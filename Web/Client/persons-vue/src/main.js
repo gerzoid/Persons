@@ -5,7 +5,8 @@ import { createPinia } from 'pinia'
 
 import Login from './Pages/Login.vue'
 import Weather from './Pages/Weather.vue'
-import Spiski  from './Pages/Spiski.vue'
+import Tables  from './Pages/Tables.vue'
+import Table  from './Pages/Table.vue'
 import App from './Pages/App.vue'
 import { useAuthStore } from "./stores/authStore";
 
@@ -24,7 +25,8 @@ const authGuard = (to, from, next) => {
 
   const routes = [
     { path: '/login', component: Login },
-    { path: '/', component: Spiski, beforeEnter: authGuard },    
+    { path: '/tables', component: Tables, beforeEnter: authGuard },
+    { path: '/table/:id', component: Table, beforeEnter: authGuard },
     { path: '/weather', component: Weather, beforeEnter: authGuard }
 ];
 const router = createRouter({

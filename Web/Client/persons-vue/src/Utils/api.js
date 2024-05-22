@@ -9,4 +9,7 @@ export default class api{
   static GetTables(){
     return axio.get("/api/tables", {params:{}});
   }
+  static GetTable(tableId){
+    return axio.get("/api/table", {params:{tableId:tableId}});
+  }
 }

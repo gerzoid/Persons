@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { NTable, NTabs, NTabPane } from "naive-ui";
+import { NTable, NTabs, NTabPane, NButton } from "naive-ui";
 import Layout from "../components/layouts/Layout.vue";
 import { useTablesStore } from "../stores/tablesStore";
 
@@ -21,13 +21,14 @@ onMounted(() => {
     <div class="content">
       <n-tabs type="segment" animated>
         <n-tab-pane name="Активные" tab="Active">
-          <n-table>
+          <n-table size="small">
             <thead>
               <tr>
                 <th>Наименование</th>
                 <th>Описание</th>
                 <th>Дата создания</th>
                 <th>Дата закрытия</th>
+                <th>Действия</th>
               </tr>
             </thead>
             <tbody>
@@ -36,6 +37,11 @@ onMounted(() => {
                 <td>{{ table.description }}</td>
                 <td>{{ table.createdAt }}</td>
                 <td>{{ table.expiredAt }}</td>
+                <td>
+                  <router-link to="/table/3">
+                    <n-button strong secondary type="primary"> Открыть </n-button>
+                  </router-link>
+                </td>
               </tr>
             </tbody>
           </n-table>
@@ -48,5 +54,11 @@ onMounted(() => {
 <style>
 .content {
   padding: 20px;
+  display: flex;
+  flex: auto;
+}
+
+.table-link {
+  display: contents;
 }
 </style>
