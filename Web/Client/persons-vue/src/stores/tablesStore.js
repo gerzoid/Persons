@@ -6,6 +6,7 @@ export const useTablesStore = defineStore('tablesStore', {
         loading: false,
         tables:[],
         tableData:[],
+        columns:[],
     }),
     getters: {
     },
@@ -27,7 +28,20 @@ export const useTablesStore = defineStore('tablesStore', {
                 })
             })
         },
-        getTables(){
+        async loadTable(tableId) {
+            this.loading = true;
+            try {
+              const result = await Api.GetTable(tableId);
+              this.tables = result.data;
+              return this.tables;
+            } catch (error) {
+              console.error(error);
+              throw error;
+            } finally {
+              this.loading = false;
+            }
+          },
+/*        getTables(){
             self=this;
             this.loading=true;
             return new Promise(function(resolve, reject){
@@ -43,6 +57,6 @@ export const useTablesStore = defineStore('tablesStore', {
                     reject(e);
                 })
             })
-        },
+        },*/
     },
   })
