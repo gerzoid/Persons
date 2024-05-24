@@ -8,7 +8,7 @@ const tablesStore = useTablesStore();
 var tables = ref([]);
 
 onMounted(() => {
-  tablesStore.getTables().then((response) => {
+  tablesStore.loadTables().then((response) => {
     tables.value = response;
     console.log(tables);
   });

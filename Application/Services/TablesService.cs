@@ -19,7 +19,7 @@ namespace Application.Services
                 .Adapt<IEnumerable<Tables>, IEnumerable<TablesDto>>();
         }
         public TablesDto GetTable(int id)
-        {
+        {            
             return _tablesRepo.GetTableById(id).Adapt<Tables, TablesDto>();
         }
 

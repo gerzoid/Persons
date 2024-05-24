@@ -20,6 +20,11 @@ namespace Application.Services
             var table = _personsRepository.ReadTable(tableName);
             return table;
         }
+        public string[] GetColumnsOfTable(string tableName)
+        {
+            var columns = _personsRepository.GetColumnsOfTable(tableName);
+            return columns;
+        }
 
     }
 }

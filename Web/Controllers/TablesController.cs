@@ -18,12 +18,14 @@ namespace Web.Controllers
     {
         private readonly ILogger<TablesController> _logger;
         private readonly TablesService _tablesService;
+        private readonly PersonsService _personsService;
 
         //private readonly RepoDbContext _context;
-        public TablesController(ILogger<TablesController> logger, TablesService tablesService)
+        public TablesController(ILogger<TablesController> logger, TablesService tablesService, PersonsService personsService)
         {
             _logger = logger;
             _tablesService = tablesService;
+            _personsService = personsService;
         }
         [HttpGet]
         public ActionResult<IEnumerable<TablesDto>> Get()
@@ -36,6 +38,8 @@ namespace Web.Controllers
         public ActionResult<TablesDto> Get(int id)
         {
             var result = _tablesService.GetTable(id);
+            _personsService.GetColumnsOfTable(result.TableName);
+
             return Ok(result);
         }
 

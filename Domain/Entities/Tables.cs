@@ -6,7 +6,9 @@ namespace Domain.Entities
     {
         [Key]
         public int TableId {  get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; }        
+        public string Database { get; set; }
+        public string Shema { get; set; }
         public string TableName { get; set; }
         public string? Description {  get; set; }
         public int CountRecords {  get; set; }

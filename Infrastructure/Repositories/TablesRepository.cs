@@ -49,7 +49,6 @@ namespace Infrastructure.Repositories
                 .Include(u => u.Settings)
                 .Where(d => d.TableId == id)
                 .FirstOrDefault();
-
         }
 
     }

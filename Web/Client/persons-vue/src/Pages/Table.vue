@@ -20,7 +20,7 @@ onMounted(() => {
 
 var settings = ref({
   licenseKey: "non-commercial-and-evaluation",
-  columns: toRaw(fileStore.fileInfo.columns),
+  columns: toRaw(tableStore.fileInfo.columns),
   colHeaders: true,
   width: "100%",
   height: "100%",
@@ -33,55 +33,53 @@ var settings = ref({
     if (hot.value.hotInstance.getDataAtCell(row, fileStore.fileInfo.countColumns) == true)
       cellProperties.className = "deleted";
     return cellProperties;
-  },  
-    items: {
-      stat: {
-        name() {
-          return "Статистика";
-        },
-        submenu: {
-          items: [
-            {
-              key: "stat:cm_group",
-              name: "Группировать",
-              callback(key, selection, clickEvent) {
-                fileStore.modal.dopInfo = {
-                  column: fileStore.fileInfo.columns[selection[0].start.col].data,
-                };
-                fileStore.activeModalComponent = "Group";
-              },
+  },
+  items: {
+    stat: {
+      name() {
+        return "Статистика";
+      },
+      submenu: {
+        items: [
+          {
+            key: "stat:cm_group",
+            name: "Группировать",
+            callback(key, selection, clickEvent) {
+              fileStore.modal.dopInfo = {
+                column: fileStore.fileInfo.columns[selection[0].start.col].data,
+              };
+              fileStore.activeModalComponent = "Group";
             },
-            {
-              key: "stat:cm_countunique",
-              name: "Количество уникальных записей по столбцу",
-              callback(key, selection, clickEvent) {
-                fileStore.modal.dopInfo = {
-                  column: fileStore.fileInfo.columns[selection[0].start.col].data,
-                };
-                fileStore.activeModalComponent = "CountUnique";
-              },
+          },
+          {
+            key: "stat:cm_countunique",
+            name: "Количество уникальных записей по столбцу",
+            callback(key, selection, clickEvent) {
+              fileStore.modal.dopInfo = {
+                column: fileStore.fileInfo.columns[selection[0].start.col].data,
+              };
+              fileStore.activeModalComponent = "CountUnique";
             },
-            {
-              key: "stat:cm_countvalue",
-              name: "Количество записей со значением в выделеннной ячейке",
-              callback(key, selection, clickEvent) {
-                fileStore.modal.dopInfo = {
-                  value: hot.value.hotInstance.getDataAtCell(
-                    selection[0].start.row,
-                    selection[0].start.col
-                  ),
-                  column: fileStore.fileInfo.columns[selection[0].start.col].data,
-                };
-                fileStore.activeModalComponent = "CountValue";
-              },
+          },
+          {
+            key: "stat:cm_countvalue",
+            name: "Количество записей со значением в выделеннной ячейке",
+            callback(key, selection, clickEvent) {
+              fileStore.modal.dopInfo = {
+                value: hot.value.hotInstance.getDataAtCell(
+                  selection[0].start.row,
+                  selection[0].start.col
+                ),
+                column: fileStore.fileInfo.columns[selection[0].start.col].data,
+              };
+              fileStore.activeModalComponent = "CountValue";
             },
-          ],
-        },
+          },
+        ],
       },
     },
+  },
 });
-
-
 </script>
 
 <template>
