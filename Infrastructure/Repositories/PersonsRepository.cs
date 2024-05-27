@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Application.Common.Dto;
+using Domain.Interfaces;
 using Infrastructure.Database.RepoDb;
 using Microsoft.Extensions.Configuration;
 using RepoDb;
@@ -8,12 +9,11 @@ namespace Infrastructure.Repositories
 {
     public class PersonsRepository(IConfiguration configuration) : DbServiceBase(configuration), IPersonsRepository
     {
-        public string[] GetColumnsOfTable(string tableName)
+        //public string[] GetColumnsOfTable(string tableName)
+        public string[] GetColumnsOfTable(string shema, string tableName)
         {
-            //var reader = _connection.ExecuteQuery($"SELECT TOP 0 * FROM {tableName}");
-            var reader = _connection.ExecuteQuery<string>($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'erz_find1'");
-            var ret = reader?.Select(d =>(string)d).ToArray();
-            return ret;
+            var reader = _connection.ExecuteQuery<string>($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{shema}' AND TABLE_NAME = '{tableName}'");
+            return  reader?.Select(d =>(string)d).ToArray();
         }
 
         public DataTable ReadTable(string tableName)

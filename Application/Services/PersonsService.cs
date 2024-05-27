@@ -17,12 +17,12 @@ namespace Application.Services
         }
         public DataTable ReadTable(string tableName)
         {
-            var table = _personsRepository.ReadTable(tableName);
-            return table;
+            var resultTable = _personsRepository.ReadTable(tableName);
+            return resultTable;
         }
-        public string[] GetColumnsOfTable(string tableName)
+        public string[] GetColumnsOfTable(string shema, string tableName)
         {
-            var columns = _personsRepository.GetColumnsOfTable(tableName);
+            var columns = _personsRepository.GetColumnsOfTable(shema, tableName);
             return columns;
         }
 

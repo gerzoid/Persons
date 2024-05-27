@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Mapster;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Common.Dto
 {
@@ -16,5 +17,8 @@ namespace Application.Common.Dto
         public DateTime? ExpiredAt { get; set; }        
         public List<SettingsTablesDto> Settings { get; set; }
         public string[] Columns { get; set; }
+        [AdaptIgnore]
+        public string FullTableName { get { return Database + '.' + Shema + '.' + TableName; } }
+
     }
 }

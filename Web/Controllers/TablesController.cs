@@ -38,7 +38,7 @@ namespace Web.Controllers
         public ActionResult<TablesDto> Get(int id)
         {
             var result = _tablesService.GetTable(id);
-            _personsService.GetColumnsOfTable(result.TableName);
+            _personsService.GetColumnsOfTable(result.Shema, result.TableName);
 
             return Ok(result);
         }
