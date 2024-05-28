@@ -23,7 +23,7 @@ namespace Application.Services
                 throw new InvalidOperationException($"Table with id {request.TableId} not found");
                                   
             var response = new PersonsResponse();
-            response.Adapt(tab);
+            tab.Adapt(response);
             response.Columns = _personsRepository.GetColumnsOfTable(tab.Shema, tab.TableName);
             return response;
         }
