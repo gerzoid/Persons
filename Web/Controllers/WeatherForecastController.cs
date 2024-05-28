@@ -34,8 +34,8 @@ namespace Web.Controllers
         {
             var a = _tableService.GetTable(3);
             Console.WriteLine(a.Name);
-            var t = _peopleService.ReadTable(a.TableName);
-            Console.WriteLine(t.Rows.Count);
+            //var t = _peopleService.ReadTable(a.TableName);
+            //Console.WriteLine(t.Rows.Count);
             
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -52,10 +52,11 @@ namespace Web.Controllers
         {
             var a = _tableService.GetTable(3);
             Console.WriteLine(a.Name);
-            var t = _peopleService.ReadTable(a.TableName);
-            Console.WriteLine(t.Rows.Count);
+            //var t = _peopleService.ReadTable(a.TableName);
+            //Console.WriteLine(t.Rows.Count);
 
-            return Ok( DataTableToJsonSerializer.SystemTextJson(t));
+            return Ok();
+            //return Ok( DataTableToJsonSerializer.SystemTextJson());
         }
 
     }

@@ -15,9 +15,14 @@ namespace Application.Services
             _tablesRepository = tablesRepository;
             _personsRepository = personsRepository;
         }
-        public DataTable ReadTable(string tableName)
+        public DataTable ReadTable(PersonsRequest request)
         {
-            var resultTable = _personsRepository.ReadTable(tableName);
+            var tab = _tablesRepository.GetTableById(request.TableId);
+            
+            if (tab ==null)
+                throw new InvalidOperationException($"Table with id {request.TableId} not found");
+            
+            var resultTable = _personsRepository.ReadTable(tab.TableName);
             return resultTable;
         }
         public string[] GetColumnsOfTable(string shema, string tableName)

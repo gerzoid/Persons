@@ -5,6 +5,7 @@ using Infrastructure.Database.RepoDb;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 using Web.Helpers;
 
@@ -38,10 +39,17 @@ namespace Web.Controllers
         public ActionResult<TablesDto> Get(int id)
         {
             var result = _tablesService.GetTable(id);
-            _personsService.GetColumnsOfTable(result.Shema, result.TableName);
-
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("opentable")]
+        public ActionResult<PersonsResponseDto> OpenTable([FromBody] PersonsRequest request)
+        {
+            var result = _personsService.ReadTable(request);
+            return Ok(DataTableToJsonSerializer.SystemTextJson(result));
+        }
+
 
     }
 }
