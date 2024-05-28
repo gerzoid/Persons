@@ -1,13 +1,8 @@
 using Application.Common.Dto;
+using Application.Common.Models;
 using Application.Services;
-using Domain.Entities;
-using Infrastructure.Database.RepoDb;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Security.Claims;
-using Web.Helpers;
 
 namespace Web.Controllers
 {
@@ -45,7 +40,7 @@ namespace Web.Controllers
         //¬озвращает первичную информацию о таблице, список колонок, название, кол-во записей
         [HttpPost]
         [Route("opentable")]
-        public ActionResult<PersonsResponseDto> OpenTable([FromBody] PersonsRequest request)
+        public ActionResult<PersonsResponse> OpenTable([FromBody] PersonsRequest request)
         {
             var result = _personsService.OpenTable(request);
             return Ok(result);

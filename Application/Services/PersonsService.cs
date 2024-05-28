@@ -1,4 +1,4 @@
-﻿using Application.Common.Dto;
+﻿using Application.Common.Models;
 using Domain.Entities;
 using Domain.Interfaces;
 using Mapster;
@@ -15,19 +15,19 @@ namespace Application.Services
             _tablesRepository = tablesRepository;
             _personsRepository = personsRepository;
         }
-        public PersonsResponseDto OpenTable(PersonsRequest request)
+        public PersonsResponse OpenTable(PersonsRequest request)
         {
             var tab = _tablesRepository.GetTableById(request.TableId);
             
             if (tab ==null)
                 throw new InvalidOperationException($"Table with id {request.TableId} not found");
                                   
-            var response = new PersonsResponseDto();
+            var response = new PersonsResponse();
             response.Adapt(tab);
             response.Columns = _personsRepository.GetColumnsOfTable(tab.Shema, tab.TableName);
             return response;
         }
-        public string[] GetColumnsOfTable(string shema, string tableName)
+        public List<Column> GetColumnsOfTable(string shema, string tableName)
         {
             var columns = _personsRepository.GetColumnsOfTable(shema, tableName);
             return columns;

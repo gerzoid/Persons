@@ -1,6 +1,7 @@
-﻿using Application.Common.Dto;
+﻿using Application.Common.Models;
 using Domain.Interfaces;
 using Infrastructure.Database.RepoDb;
+using Microsoft.Data.SqlClient.DataClassification;
 using Microsoft.Extensions.Configuration;
 using RepoDb;
 using System.Data;
@@ -9,11 +10,22 @@ namespace Infrastructure.Repositories
 {
     public class PersonsRepository(IConfiguration configuration) : DbServiceBase(configuration), IPersonsRepository
     {
-        //public string[] GetColumnsOfTable(string tableName)
-        public string[] GetColumnsOfTable(string shema, string tableName)
+        public List<Column> GetColumnsOfTable(string shema, string tableName)
         {
-            var reader = _connection.ExecuteQuery<string>($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{shema}' AND TABLE_NAME = '{tableName}'");
-            return  reader?.Select(d =>(string)d).ToArray();
+            List<Column> columns = new List<Column>();
+
+            using var reader = _connection.ExecuteReader($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{shema}' AND TABLE_NAME = '{tableName}'");
+            {
+                while (reader.Read())
+                {
+                    var col = new Column();
+                    col.Name = reader["COLUMN_NAME"].ToString();
+                    col.Title = col.Name;
+                    col.Type = reader["DATA_TYPE"].ToString();
+                    columns.Add(col);
+                }
+            }
+            return columns;
         }
 
         public DataTable ReadTable(string tableName)

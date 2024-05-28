@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="Data\EntityFramework\Models\" />
-    <Folder Include="Identity\Новая папка\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
@@ -28,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 

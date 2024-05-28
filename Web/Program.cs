@@ -1,18 +1,12 @@
 using Application.Common.Mapper;
 using Application.Services;
+using Domain.Identity;
 using Domain.Interfaces;
 using Infrastructure.Data.EntityFramework;
-using Infrastructure.Database.RepoDb;
 using Infrastructure.Identity;
 using Infrastructure.Repositories;
-using Mapster;
-using MapsterMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using RepoDb;
-using System.Globalization;
-using System.Text;
 using Web.Helpers;
 using Web.Middleware;
 
@@ -59,6 +53,7 @@ namespace Web
             #endregion
             
             builder.Services.AddSwaggerGen();
+            
             builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
 
@@ -72,7 +67,7 @@ namespace Web
             builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
 
-
+            
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())

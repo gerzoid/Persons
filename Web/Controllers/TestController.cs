@@ -1,10 +1,6 @@
 using Domain.Entities;
-using Infrastructure.Database.RepoDb;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Web.Helpers;
 
 namespace Web.Controllers
 {

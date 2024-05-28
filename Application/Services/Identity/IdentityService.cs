@@ -1,11 +1,12 @@
 ﻿using Application.Common.Models;
+using Application.Configuration;
 using Domain.Entities;
+using Domain.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Web.Helpers;
 
 namespace Infrastructure.Identity
 {
@@ -19,14 +20,9 @@ namespace Infrastructure.Identity
             _settings = settings.Value;
         }
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        public User? Authenticate(string login, string password)
         {
-            var user = _users.SingleOrDefault(d => d.Username == model.Username && d.Password == model.Password);
-            if (user == null)
-                return null;
-
-            var token = GenerateJwtToken(user);
-            return new AuthenticateResponse(user, token);
+            return _users.SingleOrDefault(d => d.Username == login && d.Password == password);
         }
 
         public User GetById(int id)

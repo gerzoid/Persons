@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Identity
+namespace Domain.Identity
 {
     public interface IIdentityService
     {
-        AuthenticateResponse Authenticate(AuthenticateRequest model);
-        User GetById(int id);
+        User Authenticate(string login, string password);
+        User GetById(int id);        
+        string GenerateJwtToken(User user);
     }
 }

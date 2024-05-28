@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Application.Common.Dto
+namespace Application.Common.Models
 {
     public class Column
     {
@@ -16,3 +16,4 @@ namespace Application.Common.Dto
         [JsonPropertyName("width1")]
         public int Size { get; set; }   //Размер для Handsontable, становится width
     }
+}

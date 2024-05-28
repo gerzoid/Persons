@@ -1,8 +1,6 @@
 ﻿using Application.Common.Models;
-using Infrastructure.Identity;
+using Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
@@ -15,10 +13,13 @@ namespace Web.Controllers
         [AllowAnonymous]
         public IActionResult Login(AuthenticateRequest model, IIdentityService userService)
         {
-            var answer = userService.Authenticate(model);
-            if (answer == null)
-                return Unauthorized();            
-            return Ok(answer);
+            var user = userService.Authenticate(model.Username, model.Password);
+            if (user == null)
+                return Unauthorized();
+
+            var token = userService.GenerateJwtToken(user);
+            
+            return Ok(new AuthenticateResponse(user, token));
         }
     }
 }
