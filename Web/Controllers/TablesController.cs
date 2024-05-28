@@ -42,12 +42,14 @@ namespace Web.Controllers
             return Ok(result);
         }
 
+        //¬озвращает первичную информацию о таблице, список колонок, название, кол-во записей
         [HttpPost]
         [Route("opentable")]
         public ActionResult<PersonsResponseDto> OpenTable([FromBody] PersonsRequest request)
         {
-            var result = _personsService.ReadTable(request);
-            return Ok(DataTableToJsonSerializer.SystemTextJson(result));
+            var result = _personsService.OpenTable(request);
+            return Ok(result);
+            //return Ok(DataTableToJsonSerializer.SystemTextJson(result));
         }
 
 

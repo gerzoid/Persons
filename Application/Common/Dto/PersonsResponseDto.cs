@@ -5,9 +5,8 @@ namespace Application.Common.Dto
 {
     public class PersonsResponseDto
     {
-        public int TableId {  get; set; }
+        public int TableId {  get; set; }        
         public string[] Columns { get; set; }
-        public Dictionary<string, object> Data { get; set; }
 
     }
 }

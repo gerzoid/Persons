@@ -15,15 +15,17 @@ namespace Application.Services
             _tablesRepository = tablesRepository;
             _personsRepository = personsRepository;
         }
-        public DataTable ReadTable(PersonsRequest request)
+        public PersonsResponseDto OpenTable(PersonsRequest request)
         {
             var tab = _tablesRepository.GetTableById(request.TableId);
             
             if (tab ==null)
                 throw new InvalidOperationException($"Table with id {request.TableId} not found");
-            
-            var resultTable = _personsRepository.ReadTable(tab.TableName);
-            return resultTable;
+                                  
+            var response = new PersonsResponseDto();
+            response.Adapt(tab);
+            response.Columns = _personsRepository.GetColumnsOfTable(tab.Shema, tab.TableName);
+            return response;
         }
         public string[] GetColumnsOfTable(string shema, string tableName)
         {
