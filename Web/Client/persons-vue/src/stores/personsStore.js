@@ -12,6 +12,7 @@ export const usePersonsStore = defineStore('personsStore', {
     },
     actions: {
       async openTable(tableId) {
+        this.loading = true;
         try {
             const result = await Api.OpenTable(tableId);
             this.columns = result.data.columns;
@@ -23,5 +24,19 @@ export const usePersonsStore = defineStore('personsStore', {
             this.loading = false;
         }
       },
+      async getDataFromPersons(tableId) {
+        this.loading = true;
+        try {
+            const result = await Api.GetDataFromPersons(tableId);
+            this.tableData = result.data;
+            return this.tables;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        } finally {
+            this.loading = false;
+        }
+      },
+
     },
   })

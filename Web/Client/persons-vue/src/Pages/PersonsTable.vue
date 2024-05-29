@@ -19,13 +19,14 @@ const id = route.params.id;
 onMounted(() => {
   personsStore.openTable(id).then((response) => {
     settings.value.columns = toRaw(personsStore.columns);
+    settings.value.width = "100%";
   });
 });
 
 var settings = ref({
   licenseKey: "non-commercial-and-evaluation",
   colHeaders: true,
-  width: "100%",
+  width: "0px",
   height: "100%",
   manualColumnResize: true,
   columnSorting: true,
