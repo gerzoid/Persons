@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Mapster;
 using System.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Application.Services
 {
@@ -35,6 +36,33 @@ namespace Application.Services
             var columns = _personsRepository.GetColumnsOfTable(shema, tableName);
             return columns;
         }
+
+        public List<Dictionary<string, object>> GetData()
+        {
+
+            /*Dbf dbf = new Dbf();
+
+            var rows = new List<Dictionary<string, object>>();
+
+            int startRow = data.PageSize * (data.Page - 1);
+            startRow = startRow >= dbf.CountRows ? dbf.CountRows : startRow;
+            int endRow = startRow + data.PageSize > dbf.CountRows ? dbf.CountRows : startRow + data.PageSize;
+
+            for (int indexRow = startRow; indexRow < endRow; indexRow++)
+            {
+                Dictionary<string, object> values = new Dictionary<string, object>();
+                for (int i = 0; i < dbf.CountColumns; i++)
+                {
+                    values.Add(dbf.GetColumnName(i), dbf.GetValue(i, indexRow));
+                }
+                values.Add("_IS_DELETED_", dbf.IsDeleted(indexRow));
+                rows.Add(values);
+            }            
+            */
+            var rows = new List<Dictionary<string, object>>();
+
+        }
+
 
         string ConvertTypeSQLColumnToHandsontableFormat(string typeColumn)
         {

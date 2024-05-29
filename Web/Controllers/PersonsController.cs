@@ -12,16 +12,15 @@ namespace Web.Controllers
     //[Authorize]
     public class PersonsController : ControllerBase
     {
-        private readonly ILogger<TablesController> _logger;
+        private readonly ILogger<PersonsController> _logger;
         private readonly PersonsService _personsService;
 
         //private readonly RepoDbContext _context;
-        public TablesController(ILogger<TablesController> logger, PersonsService personsService)
+        public PersonsController(ILogger<PersonsController> logger, PersonsService personsService)
         {
             _logger = logger;
             _personsService = personsService;
         }
-        [HttpGet]
 
         //¬озвращает первичную информацию о таблице, список колонок, название, кол-во записей
         [HttpPost]
@@ -29,6 +28,14 @@ namespace Web.Controllers
         public ActionResult<PersonsResponse> OpenTable([FromBody] PersonsRequest request)
         {
             var result = _personsService.OpenTable(request);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("get-data")]
+        public ActionResult<PersonsResponse> GetData([FromBody] QueryRequest request)
+        {
+            var result = _personsService.GetData(request);
             return Ok(result);
             //return Ok(DataTableToJsonSerializer.SystemTextJson(result));
         }
