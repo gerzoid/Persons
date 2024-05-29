@@ -12,15 +12,17 @@ namespace Application.Services
         {
             _tablesRepo = tablesRepository;
         }
-        public IEnumerable<TablesDto> GetTables()
+        public async Task<IEnumerable<TablesDto>> GetTablesAsync()
         {            
-            return _tablesRepo
-                .GetTables()
+            return (await _tablesRepo
+                .GetTablesAsync())
                 .Adapt<IEnumerable<Tables>, IEnumerable<TablesDto>>();
         }
-        public TablesDto GetTable(int id)
-        {            
-            return _tablesRepo.GetTableById(id).Adapt<Tables, TablesDto>();
+        public async Task<TablesDto> GetTableAsync(int id)
+        {
+            return  (await _tablesRepo.GetTableByIdAsync(id)).Adapt<Tables, TablesDto>();
+            //var tableDTO = table.Adapt<Tables, TablesDto>();
+            //return tableDTO;
         }
 
         public void AddTable(TablesDto table)

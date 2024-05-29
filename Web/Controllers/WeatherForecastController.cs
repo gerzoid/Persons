@@ -30,9 +30,9 @@ namespace Web.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
-            var a = _tableService.GetTable(3);
+            var a = await _tableService.GetTableAsync(3);
             Console.WriteLine(a.Name);
             //var t = _peopleService.ReadTable(a.TableName);
             //Console.WriteLine(t.Rows.Count);
@@ -46,18 +46,5 @@ namespace Web.Controllers
             })
             .ToArray();
         }
-        [HttpGet]
-        [Route("test")]
-        public ActionResult Test()
-        {
-            var a = _tableService.GetTable(3);
-            Console.WriteLine(a.Name);
-            //var t = _peopleService.ReadTable(a.TableName);
-            //Console.WriteLine(t.Rows.Count);
-
-            return Ok();
-            //return Ok( DataTableToJsonSerializer.SystemTextJson());
-        }
-
     }
 }

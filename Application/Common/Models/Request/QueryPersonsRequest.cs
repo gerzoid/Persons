@@ -7,7 +7,7 @@ using Application.Common.Dto;
 
 namespace Application.Common.Models
 {
-    public class QueryRequest
+    public class QueryPersonsRequest
     {
         public int TableId {  get; set; }
         public int PageSize { get; set; }

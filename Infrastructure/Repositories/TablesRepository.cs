@@ -28,9 +28,9 @@ namespace Infrastructure.Repositories
             _context.SaveChanges();
         }
 
-        public IEnumerable<Tables> GetTables()
+        public async Task<IEnumerable<Tables>> GetTablesAsync()
         {
-            return _context.Set<Tables>().AsNoTracking().ToList();
+            return await _context.Set<Tables>().AsNoTracking().ToListAsync();
         }
 
         public Tables? GetTable(int id)
@@ -42,13 +42,13 @@ namespace Infrastructure.Repositories
                 .FirstOrDefault();
         }
 
-        public Tables? GetTableById(int id)
+        public async Task<Tables?> GetTableByIdAsync(int id)
         {
-            return _context.Set<Tables>()
+            return await _context.Set<Tables>()
                 .AsNoTracking()
                 .Include(u => u.Settings)
                 .Where(d => d.TableId == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
     }

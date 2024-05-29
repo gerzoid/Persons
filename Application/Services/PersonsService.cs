@@ -16,30 +16,38 @@ namespace Application.Services
             _tablesRepository = tablesRepository;
             _personsRepository = personsRepository;
         }
-        public PersonsResponse OpenTable(PersonsRequest request)
+        public async Task<PersonsResponse> OpenTableAsync(PersonsRequest request)
         {
-            var tab = _tablesRepository.GetTableById(request.TableId);
-            
-            if (tab ==null)
-                throw new InvalidOperationException($"Table with id {request.TableId} not found");
-                                  
+            var tab = await GetTableByIdAsync(request.TableId);
             var response = new PersonsResponse();
             tab.Adapt(response);
-            response.Columns = _personsRepository.GetColumnsOfTable(tab.Shema, tab.TableName);
+            response.Columns = await _personsRepository.GetColumnsOfTableAsync(tab.Shema, tab.TableName);
             foreach (var col in response.Columns)            
                 col.Type = ConvertTypeSQLColumnToHandsontableFormat(col.Type);
             
             return response;
         }
-        public List<Column> GetColumnsOfTable(string shema, string tableName)
+        async Task<Tables> GetTableByIdAsync(int tableId)
         {
-            var columns = _personsRepository.GetColumnsOfTable(shema, tableName);
+            var tab = await _tablesRepository.GetTableByIdAsync(tableId);
+
+            if (tab == null)
+                throw new InvalidOperationException($"Table with id {tableId} not found");
+            return tab;
+        }
+
+        public async Task<List<Column>> GetColumnsOfTable(string shema, string tableName)
+        {            
+            var columns = await _personsRepository.GetColumnsOfTableAsync(shema, tableName);
             return columns;
         }
 
-        public List<Dictionary<string, object>> GetData()
+        //public List<Dictionary<string, object>> GetData(QueryPersonsRequest request)
+        public async Task<DataTable> GetDataAsync(QueryPersonsRequest request)
         {
-
+            var tab = await GetTableByIdAsync(request.TableId);
+            var table  = await _personsRepository.ReadTableAsync(tab.TableName);
+            return table;
             /*Dbf dbf = new Dbf();
 
             var rows = new List<Dictionary<string, object>>();

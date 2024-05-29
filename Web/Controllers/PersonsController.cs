@@ -3,6 +3,7 @@ using Application.Common.Models;
 using Application.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Web.Helpers;
 
 namespace Web.Controllers
 {
@@ -25,19 +26,18 @@ namespace Web.Controllers
         //¬озвращает первичную информацию о таблице, список колонок, название, кол-во записей
         [HttpPost]
         [Route("opentable")]
-        public ActionResult<PersonsResponse> OpenTable([FromBody] PersonsRequest request)
+        public async Task<ActionResult<PersonsResponse>> OpenTableAsync([FromBody] PersonsRequest request)
         {
-            var result = _personsService.OpenTable(request);
+            var result = await _personsService.OpenTableAsync(request);
             return Ok(result);
         }
 
         [HttpPost]
         [Route("get-data")]
-        public ActionResult<PersonsResponse> GetData([FromBody] QueryRequest request)
+        public async Task<ActionResult> GetData([FromBody] QueryPersonsRequest request)
         {
-            var result = _personsService.GetData(request);
-            return Ok(result);
-            //return Ok(DataTableToJsonSerializer.SystemTextJson(result));
+            var result = await _personsService.GetDataAsync(request);
+            return Ok(DataTableToJsonSerializer.SystemTextJson(result));
         }
 
 

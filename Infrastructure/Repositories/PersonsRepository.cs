@@ -10,7 +10,7 @@ namespace Infrastructure.Repositories
 {
     public class PersonsRepository(IConfiguration configuration) : DbServiceBase(configuration), IPersonsRepository
     {
-        public List<Column> GetColumnsOfTable(string shema, string tableName)
+        public async Task<List<Column>> GetColumnsOfTableAsync(string shema, string tableName)
         {
             List<Column> columns = new List<Column>();
 
@@ -28,11 +28,10 @@ namespace Infrastructure.Repositories
             return columns;
         }
 
-        public DataTable ReadTable(string tableName)
+        public async Task<DataTable> ReadTableAsync(string tableName)
         {
             //var a = _connection.Query<Dictionary<string, object>>($"select * from dbo.erz_find").Take(10).ToList();
-           using (var reader = _connection.ExecuteReader($"SELECT top 100  * FROM {tableName}"))
-           // using (var reader = _connection.ExecuteReader($"SELECT top 100  * FROM Tables"))
+           using (var reader = await _connection.ExecuteReaderAsync($"SELECT top 100  * FROM {tableName}"))
             {
                 var dataTable = new DataTable();
                 dataTable.Load(reader);

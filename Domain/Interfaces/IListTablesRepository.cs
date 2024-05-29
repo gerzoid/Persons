@@ -10,9 +10,9 @@ namespace Domain.Interfaces
     public interface ITablesRepository
     {
         //Получить список всех таблиц        
-        public IEnumerable<Tables> GetTables();
+        public Task<IEnumerable<Tables>> GetTablesAsync();
         //Получить всю информацию от таблице и её настройках
-        public Tables? GetTableById(int id);        
+        public Task<Tables?> GetTableByIdAsync(int id);        
         public void AddTable(Tables table);
 
 

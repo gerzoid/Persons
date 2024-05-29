@@ -22,16 +22,16 @@ namespace Web.Controllers
             _tablesService = tablesService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<TablesDto>> Get()
+        public async Task<ActionResult<IEnumerable<TablesDto>>> Get()
         {
-            var result = _tablesService.GetTables();
+            var result = await _tablesService.GetTablesAsync();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TablesDto> Get(int id)
+        public async Task<ActionResult<TablesDto>> GetAsync(int id)
         {
-            var result = _tablesService.GetTable(id);
+            var result = await _tablesService.GetTableAsync(id);
             return Ok(result);
         }
     }
