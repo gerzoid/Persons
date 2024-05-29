@@ -14,14 +14,12 @@ namespace Web.Controllers
     {
         private readonly ILogger<TablesController> _logger;
         private readonly TablesService _tablesService;
-        private readonly PersonsService _personsService;
 
         //private readonly RepoDbContext _context;
-        public TablesController(ILogger<TablesController> logger, TablesService tablesService, PersonsService personsService)
+        public TablesController(ILogger<TablesController> logger, TablesService tablesService)
         {
             _logger = logger;
             _tablesService = tablesService;
-            _personsService = personsService;
         }
         [HttpGet]
         public ActionResult<IEnumerable<TablesDto>> Get()
@@ -36,17 +34,5 @@ namespace Web.Controllers
             var result = _tablesService.GetTable(id);
             return Ok(result);
         }
-
-        //¬озвращает первичную информацию о таблице, список колонок, название, кол-во записей
-        [HttpPost]
-        [Route("opentable")]
-        public ActionResult<PersonsResponse> OpenTable([FromBody] PersonsRequest request)
-        {
-            var result = _personsService.OpenTable(request);
-            return Ok(result);
-            //return Ok(DataTableToJsonSerializer.SystemTextJson(result));
-        }
-
-
     }
 }

@@ -10,7 +10,7 @@ export default class api{
     return axio.get("/api/tables", {params:{}});
   }
   static OpenTable(tableId){
-    return axio.post("/api/tables/opentable", {TableId:tableId});
+    return axio.post("/api/persons/opentable", {TableId:tableId});
   }
 
   static GetTable(tableId){
