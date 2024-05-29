@@ -1,4 +1,5 @@
 using Application.Common.Mapper;
+using Application.Configuration;
 using Application.Services;
 using Domain.Identity;
 using Domain.Interfaces;
@@ -6,6 +7,7 @@ using Infrastructure.Data.EntityFramework;
 using Infrastructure.Identity;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using RepoDb;
 using Web.Helpers;
 using Web.Middleware;

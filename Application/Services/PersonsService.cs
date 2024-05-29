@@ -25,6 +25,9 @@ namespace Application.Services
             var response = new PersonsResponse();
             tab.Adapt(response);
             response.Columns = _personsRepository.GetColumnsOfTable(tab.Shema, tab.TableName);
+            foreach (var col in response.Columns)            
+                col.Type = ConvertTypeSQLColumnToHandsontableFormat(col.Type);
+            
             return response;
         }
         public List<Column> GetColumnsOfTable(string shema, string tableName)
@@ -33,5 +36,18 @@ namespace Application.Services
             return columns;
         }
 
+        string ConvertTypeSQLColumnToHandsontableFormat(string typeColumn)
+        {
+            //Dictionary<string, string> typesConvert = new Dictionary<string, string>() { { "int", "Numeric" }, { "nchar", "Text" }
+            switch (typeColumn)
+            {
+                case "int": return "Numeric";
+                case "decimal": return "Numeric";
+                case "bit": return "Checkbox";
+                case "date": return "Date";
+                case "smalldatetime": return "Date";
+                default: return "Text";
+            }
+        }
     }
 }

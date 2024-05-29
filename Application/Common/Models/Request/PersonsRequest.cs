@@ -9,7 +9,6 @@ namespace Application.Common.Models
     public class PersonsRequest
     {
         public int TableId { get; set; }
-        public int? PerPage { get; set; }
-        public int? Page { get; set; }
+        //здесь должны быть доп настройки для таблиц, чтобы использовать их при открытии таблиц
     }
 }

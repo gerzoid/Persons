@@ -1,10 +1,9 @@
-﻿using Domain.Identity;
-using Infrastructure.Identity;
+﻿using Application.Configuration;
+using Domain.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Web.Helpers;
 
 namespace Web.Middleware
 {

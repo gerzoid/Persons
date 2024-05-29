@@ -9,6 +9,7 @@ namespace Application.Common.Models
 {
     public class QueryRequest
     {
+        public int TableId {  get; set; }
         public int CountPerPage { get; set; }
         public List<Filters> Filters { get; set; }
         public List<Sorts> Sorts { get; set; }

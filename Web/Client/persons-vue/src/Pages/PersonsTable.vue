@@ -1,26 +1,27 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, toRaw } from "vue";
 import Layout from "../components/layouts/Layout.vue";
 import { useRoute } from "vue-router";
 import { NSpin } from "naive-ui";
 import { useTablesStore } from "../stores/tablesStore";
+import { usePersonsStore } from "../stores/personsStore";
 
 const show = ref(true);
 const tablesStore = useTablesStore();
-var tables = ref([]);
+const personsStore = usePersonsStore();
 
 const route = useRoute();
 const id = route.params.id;
 
 onMounted(() => {
-  tablesStore.getTable(3).then((response) => {
+  personsStore.openTable(id).then((response) => {
     console.log(response);
   });
 });
 
 var settings = ref({
   licenseKey: "non-commercial-and-evaluation",
-  columns: toRaw(tableStore.fileInfo.columns),
+  columns: toRaw(personsStore.columns),
   colHeaders: true,
   width: "100%",
   height: "100%",
