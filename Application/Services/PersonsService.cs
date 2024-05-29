@@ -41,12 +41,12 @@ namespace Application.Services
             //Dictionary<string, string> typesConvert = new Dictionary<string, string>() { { "int", "Numeric" }, { "nchar", "Text" }
             switch (typeColumn)
             {
-                case "int": return "Numeric";
-                case "decimal": return "Numeric";
-                case "bit": return "Checkbox";
-                case "date": return "Date";
-                case "smalldatetime": return "Date";
-                default: return "Text";
+                //case "int": return "text";
+                //case "decimal": return "numeric";
+                //case "bit": return "checkbox";
+                //case "date": return "date";
+                //case "smalldatetime": return "date";
+                default: return "text";
             }
         }
     }

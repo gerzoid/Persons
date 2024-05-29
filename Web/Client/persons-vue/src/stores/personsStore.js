@@ -14,7 +14,7 @@ export const usePersonsStore = defineStore('personsStore', {
       async openTable(tableId) {
         try {
             const result = await Api.OpenTable(tableId);
-            this.tables = result.data;
+            this.columns = result.data.columns;
             return this.tables;
         } catch (error) {
             console.error(error);
