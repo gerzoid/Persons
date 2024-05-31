@@ -9,7 +9,6 @@ import { NSpin } from "naive-ui";
 import { useTablesStore } from "../stores/tablesStore";
 import { usePersonsStore } from "../stores/personsStore";
 
-//const show = ref(true);
 const tablesStore = useTablesStore();
 const personsStore = usePersonsStore();
 
@@ -23,7 +22,6 @@ personsStore.setTableId(route.params.id);
 onMounted(() => {
   personsStore.openTable().then((response) => {
     settings.value.columns = toRaw(personsStore.columns);
-    settings.value.width = "100%";
     getDataForPersonsTable();
   });
 });
@@ -31,6 +29,7 @@ onMounted(() => {
 function getDataForPersonsTable() {
   personsStore.getDataFromPersons().then((response) => {
     hot.value.hotInstance.updateData(personsStore.tableData);
+    settings.value.width = "100%";
   });
 }
 
@@ -38,7 +37,7 @@ var settings = ref({
   licenseKey: "non-commercial-and-evaluation",
   colHeaders: true,
   width: "0px",
-  height: "100%",
+  height: "95%",
   manualColumnResize: true,
   columnSorting: true,
   wordWrap: false,
@@ -57,7 +56,11 @@ var settings = ref({
   >
     <template #description><p style="color: white">Загрузка...</p></template>
     <Layout>
-      <hot-table ref="hot" :settings="settings" class="persons-table"></hot-table>
+      <div class="table">
+        <div style="height: 100%">
+          <hot-table ref="hot" :settings="settings" class="persons-table"></hot-table>
+        </div>
+      </div>
     </Layout>
   </n-spin>
 </template>
@@ -66,9 +69,18 @@ var settings = ref({
   padding: 20px;
   display: flex;
   flex: auto;
+  height: 90vh;
+}
+.table {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  min-height: 0;
+  min-width: 0;
+  padding-right: 30px;
 }
 .persons-table {
-  margin: 10px;
+  margin: 20px;
 }
 
 .table-link {
