@@ -19,7 +19,12 @@ const route = useRoute();
 
 personsStore.setTableId(route.params.id);
 
+function handleResize() {
+  settings.value.height = window.innerHeight - 30 + "px";
+}
+
 onMounted(() => {
+  window.addEventListener("resize", handleResize);
   personsStore.openTable().then((response) => {
     settings.value.columns = toRaw(personsStore.columns);
     getDataForPersonsTable();
