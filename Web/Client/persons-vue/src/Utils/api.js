@@ -14,7 +14,7 @@ export default class api{
   }
 
   static GetDataFromPersons(tableId){
-    return axio.post("/api/persons/getdata", {TableId:tableId, PageSize:100, Page:1, Filters:{}, Sorts:{}});
+    return axio.post("/api/persons/getdata", {TableId:tableId, PageSize:100, Page:1, Filters:[], Sorts:[]});
   }
 
   static GetTable(tableId){

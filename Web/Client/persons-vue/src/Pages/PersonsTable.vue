@@ -13,15 +13,26 @@ import { usePersonsStore } from "../stores/personsStore";
 const tablesStore = useTablesStore();
 const personsStore = usePersonsStore();
 
+var hot = ref(null);
+registerAllModules();
+
 const route = useRoute();
-const id = route.params.id;
+
+personsStore.setTableId(route.params.id);
 
 onMounted(() => {
-  personsStore.openTable(id).then((response) => {
+  personsStore.openTable().then((response) => {
     settings.value.columns = toRaw(personsStore.columns);
     settings.value.width = "100%";
+    getDataForPersonsTable();
   });
 });
+
+function getDataForPersonsTable() {
+  personsStore.getDataFromPersons().then((response) => {
+    hot.value.hotInstance.updateData(personsStore.tableData);
+  });
+}
 
 var settings = ref({
   licenseKey: "non-commercial-and-evaluation",

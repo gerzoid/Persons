@@ -33,7 +33,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        [Route("get-data")]
+        [Route("getdata")]
         public async Task<ActionResult> GetData([FromBody] QueryPersonsRequest request)
         {
             var result = await _personsService.GetDataAsync(request);

@@ -3,6 +3,7 @@ import Api from '../utils/api';
 
 export const usePersonsStore = defineStore('personsStore', {
     state: () => ({
+        tableId: null,
         loading: false,
         table:[],
         tableData:[],
@@ -11,10 +12,13 @@ export const usePersonsStore = defineStore('personsStore', {
     getters: {
     },
     actions: {
-      async openTable(tableId) {
+      setTableId(id){
+        this.tableId = id;
+      },
+        async openTable() {
         this.loading = true;
         try {
-            const result = await Api.OpenTable(tableId);
+            const result = await Api.OpenTable(this.tableId);
             this.columns = result.data.columns;
             return this.tables;
         } catch (error) {
@@ -24,10 +28,10 @@ export const usePersonsStore = defineStore('personsStore', {
             this.loading = false;
         }
       },
-      async getDataFromPersons(tableId) {
+      async getDataFromPersons() {
         this.loading = true;
         try {
-            const result = await Api.GetDataFromPersons(tableId);
+            const result = await Api.GetDataFromPersons(this.tableId);
             this.tableData = result.data;
             return this.tables;
         } catch (error) {
