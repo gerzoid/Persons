@@ -46,29 +46,8 @@ namespace Application.Services
         public async Task<DataTable> GetDataAsync(QueryPersonsRequest request)
         {
             var tab = await GetTableByIdAsync(request.TableId);
-            var table  = await _personsRepository.ReadTableAsync(tab.TableName);
+            var table  = await _personsRepository.ReadTableAsync(tab.Shema, Addtab.TableName);
             return table;
-            /*Dbf dbf = new Dbf();
-
-            var rows = new List<Dictionary<string, object>>();
-
-            int startRow = data.PageSize * (data.Page - 1);
-            startRow = startRow >= dbf.CountRows ? dbf.CountRows : startRow;
-            int endRow = startRow + data.PageSize > dbf.CountRows ? dbf.CountRows : startRow + data.PageSize;
-
-            for (int indexRow = startRow; indexRow < endRow; indexRow++)
-            {
-                Dictionary<string, object> values = new Dictionary<string, object>();
-                for (int i = 0; i < dbf.CountColumns; i++)
-                {
-                    values.Add(dbf.GetColumnName(i), dbf.GetValue(i, indexRow));
-                }
-                values.Add("_IS_DELETED_", dbf.IsDeleted(indexRow));
-                rows.Add(values);
-            }            
-            */
-            var rows = new List<Dictionary<string, object>>();
-
         }
 
 
@@ -80,8 +59,8 @@ namespace Application.Services
                 //case "int": return "text";
                 //case "decimal": return "numeric";
                 //case "bit": return "checkbox";
-                //case "date": return "date";
-                //case "smalldatetime": return "date";
+                case "date": return "date";
+                case "smalldatetime": return "date";
                 default: return "text";
             }
         }

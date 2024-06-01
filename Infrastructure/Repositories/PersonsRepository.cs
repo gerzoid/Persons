@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient.DataClassification;
 using Microsoft.Extensions.Configuration;
 using RepoDb;
 using System.Data;
+using System.Text;
 
 namespace Infrastructure.Repositories
 {
@@ -14,7 +15,7 @@ namespace Infrastructure.Repositories
         {
             List<Column> columns = new List<Column>();
 
-            using var reader = _connection.ExecuteReader($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{shema}' AND TABLE_NAME = '{tableName}'");
+            using var reader = await _connection.ExecuteReaderAsync($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{shema}' AND TABLE_NAME = '{tableName}'");
             {
                 while (reader.Read())
                 {
@@ -28,10 +29,26 @@ namespace Infrastructure.Repositories
             return columns;
         }
 
-        public async Task<DataTable> ReadTableAsync(string tableName)
+        public string GetFormattingColumns(List<Column> columns)
         {
-            //var a = _connection.Query<Dictionary<string, object>>($"select * from dbo.erz_find").Take(10).ToList();
-           using (var reader = await _connection.ExecuteReaderAsync($"SELECT top 100  * FROM {tableName}"))
+            StringBuilder formattedColumns = new StringBuilder();
+
+            foreach (var col in columns)
+            {
+                if (col.Type == "date" || col.Type == "datetime" || col.Type == "smalldatetime")
+                    formattedColumns.Append($" FORMAT([{col.Name}], 'dd.MM.yyyy') as {col.Name},");
+                else
+                    formattedColumns.Append($"{col.Name},");
+            }
+            formattedColumns.Remove(formattedColumns.Length - 1, 1);
+            return formattedColumns.ToString();
+        }
+        public async Task<DataTable> ReadTableAsync(string shema, string tableName)
+        {
+            var columns = await GetColumnsOfTableAsync(shema, tableName);
+            string formattedColumns = GetFormattingColumns(columns);
+            //using (var reader = await _connection.ExecuteReaderAsync($"SELECT top 100  * FROM {tableName}"))
+            using (var reader = await _connection.ExecuteReaderAsync($"SELECT top 100 {formattedColumns} FROM {tableName}"))
             {
                 var dataTable = new DataTable();
                 dataTable.Load(reader);

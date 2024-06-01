@@ -20,6 +20,11 @@ export const usePersonsStore = defineStore('personsStore', {
         try {
             const result = await Api.OpenTable(this.tableId);
             this.columns = result.data.columns;
+            //console.log(this.columns);
+            this.formattingColumns();
+            console.log(this.columns);
+            
+            //console.log(this.columns);*/
             return this.tables;
         } catch (error) {
             console.error(error);
@@ -41,6 +46,13 @@ export const usePersonsStore = defineStore('personsStore', {
             this.loading = false;
         }
       },
-
+      formattingColumns(){
+        var columns = this.columns.map(element => {
+          if (element.type === "date") {
+            element.dateFormat='DD.MM.YYYY';
+          }
+          return element;
+        });
+      }
     },
   })
