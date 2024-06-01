@@ -46,7 +46,7 @@ namespace Application.Services
         public async Task<DataTable> GetDataAsync(QueryPersonsRequest request)
         {
             var tab = await GetTableByIdAsync(request.TableId);
-            var table  = await _personsRepository.ReadTableAsync(tab.Shema, Addtab.TableName);
+            var table  = await _personsRepository.ReadTableAsync(tab.Shema, tab.TableName);
             return table;
         }
 
