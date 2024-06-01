@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import Api from '../utils/api';
+import { readonly } from 'vue';
 
 export const usePersonsStore = defineStore('personsStore', {
     state: () => ({
@@ -47,7 +48,6 @@ export const usePersonsStore = defineStore('personsStore', {
         var columns = this.columns.map(element => {
           if (element.type === "date") {
             element.dateFormat='DD.MM.YYYY';
-            element.allowEmpty=true;
           }
           return element;
         });

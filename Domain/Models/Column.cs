@@ -14,6 +14,8 @@ namespace Application.Common.Models
         public string? Type { get; set; }   //Тип для Handsontable
         public string? Title { get; set; }
 
+        public bool? ReadOnly {  get; set; }
+        
         /*[JsonPropertyName("width1")]
         public int Size { get; set; }   //Размер для Handsontable, становится width*/
     }

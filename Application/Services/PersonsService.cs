@@ -22,8 +22,12 @@ namespace Application.Services
             var response = new PersonsResponse();
             tab.Adapt(response);
             response.Columns = await _personsRepository.GetColumnsOfTableAsync(tab.Shema, tab.TableName);
-            foreach (var col in response.Columns)            
+            //TODO вынести в отдельную процедуру, там же задавать из конфигуации и настроек видимость, перевод, возможность редактировать
+            foreach (var col in response.Columns)
+            {
                 col.Type = ConvertTypeSQLColumnToHandsontableFormat(col.Type);
+                col.ReadOnly = true;
+            }
             
             return response;
         }
