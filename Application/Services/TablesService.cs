@@ -1,7 +1,9 @@
 ﻿using Application.Common.Dto;
+using Application.Common.Models;
 using Domain.Entities;
 using Domain.Interfaces;
 using Mapster;
+using System.Web.Http;
 
 namespace Application.Services
 {
@@ -25,10 +27,10 @@ namespace Application.Services
             //return tableDTO;
         }
 
-        public void AddTable(TablesDto table)
+        public async Task<int> AddTableAsync([FromBody]CreateTableRequest table)
         {
             var tab = table.Adapt<Tables>();
-            _tablesRepo.AddTable(tab);
+            return await _tablesRepo.AddTableAsync(tab);
         }
     }
 

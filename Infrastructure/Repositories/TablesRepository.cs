@@ -22,10 +22,11 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public void AddTable(Tables table)
+        public async Task<int> AddTableAsync(Tables table)
         {
             var createdTable = _context.Set<Tables>().Add(table);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            return createdTable.Entity.TableId;
         }
 
         public async Task<IEnumerable<Tables>> GetTablesAsync()

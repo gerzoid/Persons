@@ -12,9 +12,8 @@ namespace Domain.Interfaces
         //Получить список всех таблиц        
         public Task<IEnumerable<Tables>> GetTablesAsync();
         //Получить всю информацию от таблице и её настройках
-        public Task<Tables?> GetTableByIdAsync(int id);        
-        public void AddTable(Tables table);
-
+        public Task<Tables?> GetTableByIdAsync(int id);
+        public Task<int> AddTableAsync(Tables table);
 
     }
 }

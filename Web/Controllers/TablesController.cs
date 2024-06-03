@@ -34,5 +34,12 @@ namespace Web.Controllers
             var result = await _tablesService.GetTableAsync(id);
             return Ok(result);
         }
+
+        [HttpPut]
+        public async Task<ActionResult<TablesDto>> CreateTableAsync(CreateTableRequest table)
+        {
+            var result = await _tablesService.AddTableAsync(table);
+            return Ok(result);
+        }
     }
 }
