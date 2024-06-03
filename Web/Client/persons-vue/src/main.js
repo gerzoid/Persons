@@ -6,6 +6,7 @@ import { createPinia } from 'pinia'
 import Login from './Pages/Login.vue'
 import Weather from './Pages/Weather.vue'
 import Tables  from './Pages/Tables.vue'
+import AddTable  from './Pages/Admin/AddTable.vue'
 import PersonsTable  from './Pages/PersonsTable.vue'
 import App from './Pages/App.vue'
 import { useAuthStore } from "./stores/authStore";
@@ -25,6 +26,7 @@ const authGuard = (to, from, next) => {
 
   const routes = [
     { path: '/login', component: Login },
+    { path: '/admin/table/add', component: AddTable, beforeEnter: authGuard },
     { path: '/tables', component: Tables, beforeEnter: authGuard },
     { path: '/table/:id', component: PersonsTable, beforeEnter: authGuard },
     { path: '/weather', component: Weather, beforeEnter: authGuard }
