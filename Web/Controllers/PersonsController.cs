@@ -40,6 +40,15 @@ namespace Web.Controllers
             return Ok(DataTableToJsonSerializer.SystemTextJson(result));
         }
 
+        [HttpPost]
+        [Route("checktable")]
+        public async Task<ActionResult> CheckTable(string database, string shema, string tableName)
+        {
+            var result = await _personsService.CheckTable(database, shema, tableName);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
 
     }
 }

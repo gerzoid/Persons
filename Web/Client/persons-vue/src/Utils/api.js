@@ -20,4 +20,8 @@ export default class api{
   static GetTable(tableId){
     return axio.get("/api/table", {params:{tableId:tableId}});
   }
+
+  static CheckExistTable(tableName){
+    return axio.get("/api/table", {params:{tableId:tableId}});
+  }
 }

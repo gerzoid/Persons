@@ -40,6 +40,18 @@ namespace Application.Services
             return tab;
         }
 
+        public async Task<int?> CheckTable(string database, string shema, string tableName)
+        {
+            bool exist = await _personsRepository.CheckExistsTableAsync(database, shema, tableName);
+            if (!exist)
+                return null;
+
+            int cnt = await _personsRepository.GetCountRowsAsync(database, shema, tableName);
+            return cnt;
+        }
+
+
+
         public async Task<List<Column>> GetColumnsOfTable(string shema, string tableName)
         {            
             var columns = await _personsRepository.GetColumnsOfTableAsync(shema, tableName);

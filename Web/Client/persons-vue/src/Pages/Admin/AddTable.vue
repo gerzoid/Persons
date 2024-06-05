@@ -35,7 +35,7 @@ var rules = {
   },
 };
 
-function handleValidateButtonClick(e) {
+function handleSaveButtonClick(e) {
   e.preventDefault();
   formRef.value?.validate((errors) => {
     if (!errors) {
@@ -92,8 +92,8 @@ onMounted(() => {
         </n-form-item>
 
         <div style="display: flex; justify-content: flex-end">
-          <n-button round type="primary" @click="handleValidateButtonClick">
-            Validate
+          <n-button round type="primary" @click="handleSaveButtonClick">
+            Сохранить
           </n-button>
         </div>
       </n-form>

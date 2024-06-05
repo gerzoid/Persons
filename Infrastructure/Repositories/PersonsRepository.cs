@@ -2,6 +2,7 @@
 using Domain.Interfaces;
 using Infrastructure.Database.RepoDb;
 using Microsoft.Data.SqlClient.DataClassification;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using RepoDb;
 using System.Data;
@@ -28,6 +29,19 @@ namespace Infrastructure.Repositories
             }
             return columns;
         }
+
+        public async Task<int> GetCountRowsAsync(string database, string shema, string tableName)
+        {
+            int cnt = await _connection.ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM {database}.{shema}.[{tableName}]");
+            return cnt;
+        }
+
+        public async Task<bool> CheckExistsTableAsync(string database, string shema, string tableName)
+        {
+            int cnt  = await _connection.ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_CATALOG ='{database}' AND TABLE_SCHEMA='{shema}' AND TABLE_NAME = '{tableName}'");
+            return cnt>0 ? true : false;
+        }
+
 
         public string GetFormattingColumns(List<Column> columns)
         {
