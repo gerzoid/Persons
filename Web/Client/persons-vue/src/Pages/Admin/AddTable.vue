@@ -6,40 +6,53 @@ import { useTablesStore } from "../../stores/tablesStore";
 
 const tablesStore = useTablesStore();
 
-var table = ref([]);
 var formRef = ref(null);
 
+var buttonSaveIsLoading = ref(false);
+
 var model = ref({
-  inputValue: null,
+  name: null,
+  database: null,
+  shema: null,
+  tableName: null,
+  description: null,
 });
+
 var rules = {
-  inputName: {
+  name: {
     required: true,
     trigger: ["input", "blur"],
     message: "Поле не может быть пустым",
   },
-  inputDatabase: {
+  database: {
     required: true,
     trigger: ["input", "blur"],
     message: "Поле не может быть пустым",
   },
-  inputShema: {
+  shema: {
     required: true,
     trigger: ["input", "blur"],
     message: "Поле не может быть пустым",
   },
-  inputTableName: {
+  tableName: {
     required: true,
     trigger: ["input", "blur"],
     message: "Поле не может быть пустым",
   },
 };
-
 function handleSaveButtonClick(e) {
   e.preventDefault();
   formRef.value?.validate((errors) => {
     if (!errors) {
-      message.success("Valid");
+      buttonSaveIsLoading.value = true;
+      tablesStore
+        .CheckExistTable(model.value.database, model.value.shema, model.value.tableName)
+        .then((response) => {
+          buttonSaveIsLoading.value = false;
+        })
+        .finally(() => {
+          buttonSaveIsLoading.value = false;
+        });
     } else {
       console.log(errors);
       message.error("Invalid");
@@ -48,10 +61,10 @@ function handleSaveButtonClick(e) {
 }
 
 onMounted(() => {
-  tablesStore.loadTable().then((response) => {
+  /*  tablesStore.loadTable().then((response) => {
     tables.value = response;
     console.log(tables);
-  });
+  });*/
 });
 </script>
 
@@ -66,34 +79,38 @@ onMounted(() => {
         :rules="rules"
         label-placement="left"
         require-mark-placement="right-hanging"
-        idth="auto"
         :style="{
           maxWidth: '640px',
         }"
       >
-        <n-form-item label="Название" path="inputName">
+        <n-form-item label="Название" path="name">
           <n-input v-model:value="model.name" placeholder="" />
         </n-form-item>
         <n-form-item :show-feedback="false">
           <n-space>
-            <n-form-item label="База данных" label-placement="top" path="inputDatabase">
+            <n-form-item label="База данных" label-placement="top" path="database">
               <n-input v-model:value="model.database" placeholder="" />
             </n-form-item>
-            <n-form-item label="Схема" label-placement="top" path="inputShema">
+            <n-form-item label="Схема" label-placement="top" path="shema">
               <n-input v-model:value="model.shema" placeholder="" />
             </n-form-item>
-            <n-form-item label="Таблица" label-placement="top" path="inputTableName">
+            <n-form-item label="Таблица" label-placement="top" path="tableName">
               <n-input v-model:value="model.tableName" placeholder="" />
             </n-form-item>
           </n-space>
         </n-form-item>
-        <n-form-item label="Описание" path="inputDescription">
+        <n-form-item label="Описание">
           <n-input v-model:value="model.description" placeholder="" />
         </n-form-item>
 
         <div style="display: flex; justify-content: flex-end">
-          <n-button round type="primary" @click="handleSaveButtonClick">
-            Сохранить
+          <n-button
+            :loading="buttonSaveIsLoading"
+            round
+            type="primary"
+            @click="handleSaveButtonClick"
+          >
+            Проверить
           </n-button>
         </div>
       </n-form>

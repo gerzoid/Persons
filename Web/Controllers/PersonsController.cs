@@ -42,9 +42,9 @@ namespace Web.Controllers
 
         [HttpPost]
         [Route("checktable")]
-        public async Task<ActionResult> CheckTable(string database, string shema, string tableName)
+        public async Task<ActionResult> CheckTable([FromBody]CheckTableRequest request)
         {
-            var result = await _personsService.CheckTable(database, shema, tableName);
+            var result = await _personsService.CheckTable(request.database, request.shema, request.tableName);
             if (result == null)
                 return NotFound();
             return Ok(result);

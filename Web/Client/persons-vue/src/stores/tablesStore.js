@@ -37,5 +37,18 @@ export const useTablesStore = defineStore('tablesStore', {
               this.loading = false;
             }
           },
+          async CheckExistTable(database, shema, tableName) {
+            this.loading  = true;
+           try  {
+               const result  = await Api.CheckExistTable(database, shema, tableName);
+             console.log(result.data);
+             return this.tableData;
+            } catch  (error)  {
+             console.error(error);
+             throw error;
+            } finally  {
+             this.loading  = false;
+            }
+          },
     },
   })
