@@ -37,8 +37,8 @@ export const useAuthStore = defineStore('authStore', {
               password: this.model.password,
             })
             .then((response) => {
+              console.log(response);
               localStorage.setItem("access_token", response.data.token);
-              router.push("/tables");
             })
             .catch((error) => {
               //console.error("1" + error);

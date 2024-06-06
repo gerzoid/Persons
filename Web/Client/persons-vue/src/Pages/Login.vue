@@ -9,6 +9,12 @@ import api from "../utils/api";
 const router = useRouter();
 const authStore = useAuthStore();
 
+function login() {
+  authStore.login().then(() => {
+    router.push("/tables");
+  });
+}
+
 let rules = ref({});
 </script>
 
@@ -38,10 +44,10 @@ let rules = ref({});
           </n-form-item>
           <n-form-item>
             <n-button
-              :loading="loading"
+              :loading="authStore.loading"
               class="login-button"
               type="primary"
-              @click="authStore.login"
+              @click="login"
               block
             >
               Войти
