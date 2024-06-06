@@ -11,7 +11,7 @@ onMounted(() => {});
 <template>
   <router-view> </router-view>
   <Layout>
-    Добавить таблицу<br />
+    Редактировать таблицу<br />
     <div class="content">
       <FormTable ref="formRef" />
     </div>
