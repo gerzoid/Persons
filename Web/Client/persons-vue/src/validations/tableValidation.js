@@ -11,7 +11,19 @@ export function useFormTableValidation(model){
         database: {
           required: true,
           trigger: ["input", "blur"],
-          message: "Поле не может быть пустым",
+          validator (rule, value) {
+            if (!value) {
+              return new Error('Поле не может быть пустым')
+            } else
+            {
+                //Признак наличия таблицы на сервере
+                if (model.notFoundTable==true) {
+                    return new Error('Таблица не найдена')
+                }
+            }
+            return true
+          },
+
         },
         shema: {
           required: true,
@@ -19,10 +31,10 @@ export function useFormTableValidation(model){
           validator (rule, value) {
             if (!value) {
               return new Error('Поле не может быть пустым')
-            } else 
+            } else
             {
-                console.log(model.value.notFoundTable);
-                if (model.value.notFoundTable==true) {
+                //Признак наличия таблицы на сервере
+                if (model.notFoundTable==true) {
                     return new Error('Таблица не найдена')
                 }
             }
@@ -32,7 +44,19 @@ export function useFormTableValidation(model){
         tableName: {
           required: true,
           trigger: ["input", "blur"],
-          message: "Поле не может быть пустым",
+          validator (rule, value) {
+            if (!value) {
+              return new Error('Поле не может быть пустым')
+            } else
+            {
+                //Признак наличия таблицы на сервере
+                if (model.notFoundTable==true) {
+                    return new Error('Таблица не найдена')
+                }
+            }
+            return true
+          },
+
         },
       };
       return {rules}

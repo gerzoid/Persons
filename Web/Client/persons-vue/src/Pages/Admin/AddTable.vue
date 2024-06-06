@@ -6,36 +6,29 @@ import { useTablesStore } from "../../stores/tablesStore";
 import { useFormTableValidation } from "../../validations/tableValidation";
 
 const tablesStore = useTablesStore();
-
 var formRef = ref(null);
-
 var buttonSaveIsLoading = ref(false);
 
-var model = ref({
-  name: null,
-  database: null,
-  shema: null,
-  tableName: null,
-  description: null,
-  notFoundTable: false,
-});
-
-const { rules } = useFormTableValidation(model);
+const { rules } = useFormTableValidation(tablesStore.table);
 
 function handleSaveButtonClick(e) {
-  model.value.notFoundTable = false;
+  tablesStore.table.notFoundTable = false;
   e.preventDefault();
   formRef.value?.validate((errors) => {
     if (!errors) {
       buttonSaveIsLoading.value = true;
       tablesStore
-        .CheckExistTable(model.value.database, model.value.shema, model.value.tableName)
+        .CheckExistTable(
+          tablesStore.table.database,
+          tablesStore.table.shema,
+          tablesStore.table.tableName
+        )
         .then((response) => {
-          console.log(response);
+          console.log(response); //TODO
           buttonSaveIsLoading.value = false;
         })
         .catch((error) => {
-          model.value.notFoundTable = true;
+          tablesStore.table.notFoundTable = true;
           formRef.value?.validate();
         })
         .finally(() => {
@@ -63,7 +56,7 @@ onMounted(() => {
       <n-form
         ref="formRef"
         size="small"
-        :model="model"
+        :model="tablesStore.table"
         :rules="rules"
         label-placement="left"
         require-mark-placement="right-hanging"
@@ -72,23 +65,23 @@ onMounted(() => {
         }"
       >
         <n-form-item label="Название" path="name">
-          <n-input v-model:value="model.name" placeholder="" />
+          <n-input v-model:value="tablesStore.table.name" placeholder="" />
         </n-form-item>
         <n-form-item :show-feedback="false">
           <n-space>
             <n-form-item label="База данных" label-placement="top" path="database">
-              <n-input v-model:value="model.database" placeholder="" />
+              <n-input v-model:value="tablesStore.table.database" placeholder="" />
             </n-form-item>
             <n-form-item label="Схема" label-placement="top" path="shema">
-              <n-input v-model:value="model.shema" placeholder="" />
+              <n-input v-model:value="tablesStore.table.shema" placeholder="" />
             </n-form-item>
             <n-form-item label="Таблица" label-placement="top" path="tableName">
-              <n-input v-model:value="model.tableName" placeholder="" />
+              <n-input v-model:value="tablesStore.table.tableName" placeholder="" />
             </n-form-item>
           </n-space>
         </n-form-item>
         <n-form-item label="Описание">
-          <n-input v-model:value="model.description" placeholder="" />
+          <n-input v-model:value="tablesStore.table.description" placeholder="" />
         </n-form-item>
 
         <div style="display: flex; justify-content: flex-end">

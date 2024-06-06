@@ -4,9 +4,16 @@ import Api from '../utils/api';
 export const useTablesStore = defineStore('tablesStore', {
     state: () => ({
         loading: false,
-        tables:[],
-        tableData:[],
-        columns:[],
+        tables:[],  //Список таблиц
+        table:{
+            name: null,
+            database: null,
+            shema: null,
+            tableName: null,
+            description: null,
+            countRecords:0,
+            notFoundTable: false,
+            }
     }),
     getters: {
     },
@@ -38,17 +45,17 @@ export const useTablesStore = defineStore('tablesStore', {
             }
           },
           async CheckExistTable(database, shema, tableName) {
-            this.loading  = true;
-           try  {
-               const result  = await Api.CheckExistTable(database, shema, tableName);
-             console.log(result.data);
-             return this.tableData;
-            } catch  (error)  {
-             console.error(error);
-             throw error;
-            } finally  {
-             this.loading  = false;
-            }
+              this.loading  = true;
+              try {
+                    const result  = await Api.CheckExistTable(database, shema, tableName);
+                    this.table.countRecords = result.data;
+                    return this.table.countRecords;
+               } catch  (error)  {
+                   console.error(error);
+                throw error;
+               } finally  {
+                 this.loading  = false;
+               }
+            },
           },
-    },
-  })
+    });

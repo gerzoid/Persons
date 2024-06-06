@@ -6,9 +6,8 @@ export const usePersonsStore = defineStore('personsStore', {
     state: () => ({
         tableId: null,
         loading: false,
-        table:[],
-        tableData:[],
-        columns:[],
+        tableData:[], //Сами данные таблицы
+        columns:[],   //Список колонок получаемый с сервера, необходим для инициализации handsonontable
     }),
     getters: {
     },
