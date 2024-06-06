@@ -9,7 +9,31 @@ import api from "../utils/api";
 const router = useRouter();
 const authStore = useAuthStore();
 
+var model = ref({
+  username: "",
+  password: "",
+});
+
+let loading = ref(false);
 let rules = ref({});
+
+const login = async () => {
+  loading.value = true;
+  try {
+    const response = await api.axios.post("api/Identity/login", {
+      username: model.value.username,
+      password: model.value.password,
+    });
+    localStorage.setItem("access_token", response.data.token);
+    //console.log(authStore);
+    //authStore.setUser(response.data);
+    router.push("/tables");
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
 <template>
@@ -19,7 +43,7 @@ let rules = ref({});
         <h2>Вход в систему</h2>
         <n-form class="login-form" :rules="rules">
           <n-form-item prop="username">
-            <n-input v-model:value="authStore.model.username" placeholder="Имя">
+            <n-input v-model:value="model.username" placeholder="Имя">
               <template #prefix>
                 <n-icon :component="User"></n-icon>
               </template>
@@ -27,7 +51,7 @@ let rules = ref({});
           </n-form-item>
           <n-form-item prop="password">
             <n-input
-              v-model:value="authStore.model.password"
+              v-model:value="model.password"
               placeholder="Password"
               type="password"
             >
@@ -41,7 +65,7 @@ let rules = ref({});
               :loading="loading"
               class="login-button"
               type="primary"
-              @click="authStore.login"
+              @click="login"
               block
             >
               Войти
