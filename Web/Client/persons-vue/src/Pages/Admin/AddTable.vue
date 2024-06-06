@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 import Layout from "../../components/layouts/Layout.vue";
 import { NForm, NFormItem, NSpace, NButton, NInput, NGrid, NGridItem } from "naive-ui";
 import { useTablesStore } from "../../stores/tablesStore";
+import { useFormTableValidation } from "../../validations/tableValidation";
 
 const tablesStore = useTablesStore();
 
@@ -16,31 +17,13 @@ var model = ref({
   shema: null,
   tableName: null,
   description: null,
+  notFoundTable: false,
 });
 
-var rules = {
-  name: {
-    required: true,
-    trigger: ["input", "blur"],
-    message: "Поле не может быть пустым",
-  },
-  database: {
-    required: true,
-    trigger: ["input", "blur"],
-    message: "Поле не может быть пустым",
-  },
-  shema: {
-    required: true,
-    trigger: ["input", "blur"],
-    message: "Поле не может быть пустым",
-  },
-  tableName: {
-    required: true,
-    trigger: ["input", "blur"],
-    message: "Поле не может быть пустым",
-  },
-};
+const { rules } = useFormTableValidation(model);
+
 function handleSaveButtonClick(e) {
+  model.value.notFoundTable = false;
   e.preventDefault();
   formRef.value?.validate((errors) => {
     if (!errors) {
@@ -48,7 +31,12 @@ function handleSaveButtonClick(e) {
       tablesStore
         .CheckExistTable(model.value.database, model.value.shema, model.value.tableName)
         .then((response) => {
+          console.log(response);
           buttonSaveIsLoading.value = false;
+        })
+        .catch((error) => {
+          model.value.notFoundTable = true;
+          formRef.value?.validate();
         })
         .finally(() => {
           buttonSaveIsLoading.value = false;
