@@ -4,11 +4,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 
 import Login from './Pages/Login.vue'
-import Weather from './Pages/Weather.vue'
-import Tables  from './Pages/Tables.vue'
-import AddTable  from './Pages/Admin/AddTable.vue'
-import EditTable  from './Pages/Admin/EditTable.vue'
-import PersonsTable  from './Pages/PersonsTable.vue'
 import App from './Pages/App.vue'
 import { useAuthStore } from "./stores/authStore";
 
@@ -26,12 +21,11 @@ const authGuard = (to, from, next) => {
   };
 
   const routes = [
-    { path: '/login', component: Login },
-    { path: '/admin/table/add', component: AddTable, beforeEnter: authGuard },
-    { path: '/admin/table/edit', component: EditTable, beforeEnter: authGuard },
-    { path: '/tables', component: Tables, beforeEnter: authGuard },
-    { path: '/table/:id', component: PersonsTable, beforeEnter: authGuard },
-    { path: '/weather', component: Weather, beforeEnter: authGuard }
+    { path: '/login', name:'Login', component:()=>import('./Pages/Login.vue')},
+    { path: '/admin/table/add', name:'AddTable', component: ()=>import('./Pages/Admin/AddTable.vue'), beforeEnter: authGuard },
+    { path: '/admin/table/edit', name:'EditTable', component:()=>import('./Pages/Admin/EditTable.vue'), beforeEnter: authGuard },
+    { path: '/tables', name:'Tables', component: ()=>import('./Pages/Tables.vue'),  beforeEnter: authGuard },
+    { path: '/table/:id', name:'PersonsTable', component: ()=>import('./Pages/PersonsTable.vue'), beforeEnter: authGuard },
 ];
 const router = createRouter({
     routes,
