@@ -6,14 +6,18 @@ export const useTablesStore = defineStore('tablesStore', {
         loading: false,
         tables:[],  //Список таблиц
         table:{
-            name: null,
-            database: null,
-            shema: null,
-            tableName: null,
-            description: null,
-            countRecords:0,
-            notFoundTable: false,
-            }
+          tableId:null,
+          name: null,
+          database: null,
+          shema: null,
+          tableName: null,
+          description: null,
+          countRecords:0,
+          notFoundTable: false,
+          createdAt: null,
+          updatedAt: null,
+          expiredAt: null,
+          }
     }),
     getters: {
     },
@@ -22,8 +26,8 @@ export const useTablesStore = defineStore('tablesStore', {
             this.loading = true;
             try {
                 const result = await Api.GetTable(tableId);
-              this.tables = result.data;
-              return this.tables;
+              this.table = result.data;
+              return this.table;
             } catch (error) {
               console.error(error);
               throw error;
@@ -31,6 +35,7 @@ export const useTablesStore = defineStore('tablesStore', {
               this.loading = false;
             }
           },
+          //Список всех таблиц
           async loadTables() {
             this.loading = true;
             try {
