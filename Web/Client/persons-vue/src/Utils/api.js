@@ -18,7 +18,8 @@ export default class api{
   }
 
   static GetTable(tableId){
-    return axio.get("/api/table", {params:{tableId:tableId}});
+    //return axio.get("/api/tables/".tableId", {params:{tableId:tableId}});
+    return axio.get("/api/tables/"+tableId);
   }
 
   static CheckExistTable(database, shema, tableName){

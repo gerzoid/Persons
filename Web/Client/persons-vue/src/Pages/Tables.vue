@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { NTable, NTabs, NTabPane, NButton } from "naive-ui";
+import { NTable, NTabs, NTabPane, NButton, NSpace } from "naive-ui";
 import Layout from "../components/layouts/Layout.vue";
 import { NSpin } from "naive-ui";
 import { useTablesStore } from "../stores/tablesStore";
+import {}
 
 const tablesStore = useTablesStore();
 
@@ -42,9 +43,19 @@ onMounted(() => {
                   <td>{{ table.createdAt }}</td>
                   <td>{{ table.expiredAt }}</td>
                   <td>
-                    <router-link to="/table/3">
-                      <n-button strong secondary type="primary"> Открыть </n-button>
-                    </router-link>
+                    <n-space>
+                      <router-link
+                        :to="{ name: 'EditTable', params: { tableId: table.tableId } }"
+                      >
+                        <n-button strong secondary type="warning"
+                          >Редактировать
+                        </n-button>
+                      </router-link>
+
+                      <router-link to="/table/3">
+                        <n-button strong secondary type="primary"> Открыть </n-button>
+                      </router-link>
+                    </n-space>
                   </td>
                 </tr>
               </tbody>

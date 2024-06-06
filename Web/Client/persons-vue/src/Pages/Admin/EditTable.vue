@@ -2,11 +2,18 @@
 import { onMounted, ref } from "vue";
 import Layout from "../../components/layouts/Layout.vue";
 import FormTable from "../../components/table/FormTable.vue";
+import { useTablesStore } from "../../stores/tablesStore";
+import { useRoute } from "vue-router";
+
+const tablesStore = useTablesStore();
+const route = useRoute();
 
 var formRef = ref(null);
 
 onMounted(() => {
-  tablesStore.loadTable().then((response) => {});
+  tablesStore.loadTable(route.params.tableId).then((response) => {
+    console.log(response);
+  });
 });
 </script>
 

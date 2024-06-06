@@ -13,13 +13,16 @@ export const useAuthStore = defineStore('authStore', {
         email: null,
         token: '',
         expiration: null,
-        isAdminin: false,
+        isAdmin: false,
       },
     }),
     getters: {
         isAuthenticated(){
             return localStorage.getItem('access_token')?.length > 0;
-          }
+          },
+        isAdmin(){
+          return this.user.isAdmin;
+        }
         },
     actions: {
       setUser(user){
@@ -27,6 +30,7 @@ export const useAuthStore = defineStore('authStore', {
             this.email = user.email;
             this.token = user.token;
             this.expiration = user.expiration;
+            this.isAdmin = user.isAdmin;
             console.log(this);
       },
       async login(){

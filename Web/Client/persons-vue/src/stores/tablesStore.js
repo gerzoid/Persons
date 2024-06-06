@@ -22,11 +22,12 @@ export const useTablesStore = defineStore('tablesStore', {
     getters: {
     },
     actions: {
-        async loadTable(tableId) {
+        //async loadTable(tableId) {
+          async loadTable(tableId) {
             this.loading = true;
             try {
                 const result = await Api.GetTable(tableId);
-              this.table = result.data;
+                this.table = result.data;
               return this.table;
             } catch (error) {
               console.error(error);
