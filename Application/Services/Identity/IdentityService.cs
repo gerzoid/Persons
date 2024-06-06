@@ -13,7 +13,7 @@ namespace Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
         private readonly AppSettings _settings;
-        private List<User> _users = new List<User>() { new User() { FirstName = "Gerz", LastName = "Gerz", Id = 1, Password = "korobok", Username = "gerz" } };
+        private List<User> _users = new List<User>() { new User() { FirstName = "Gerz", LastName = "Gerz", Id = 1, Password = "korobok", Username = "gerz", IsAdmin = true } };
 
         public IdentityService(IOptions<AppSettings> settings)
         {

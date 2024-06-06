@@ -5,7 +5,9 @@ import FormTable from "../../components/table/FormTable.vue";
 
 var formRef = ref(null);
 
-onMounted(() => {});
+onMounted(() => {
+  tablesStore.loadTable().then((response) => {});
+});
 </script>
 
 <template>
