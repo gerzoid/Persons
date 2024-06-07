@@ -9,6 +9,16 @@ namespace Web.Controllers
     [ApiController]
     public class IdentityController : ControllerBase
     {
+        [HttpPost("check")]
+        public IActionResult Check(IIdentityService userService)
+        {
+            var a = HttpContext.Items;
+
+            //var token = userService.GenerateJwtToken(user);
+            
+            return Ok();
+        }
+
         [HttpPost("login")]
         [AllowAnonymous]
         public IActionResult Login(AuthenticateRequest model, IIdentityService userService)
@@ -18,7 +28,7 @@ namespace Web.Controllers
                 return Unauthorized();
 
             var token = userService.GenerateJwtToken(user);
-            
+
             return Ok(new AuthenticateResponse(user, token));
         }
     }

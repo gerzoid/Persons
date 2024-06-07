@@ -10,6 +10,10 @@ var apps = createApp(App).use(Pinia);
 
 const authStore = useAuthStore();
 
+if (authStore.isAuthenticated && authStore.isAdmin==null) {
+  var r = await authStore.fetchUser(authStore.token);
+}
+
 const authGuard = (to, from, next) => {
     if (authStore.isAuthenticated) {
       next();
@@ -30,5 +34,4 @@ const router = createRouter({
     history: createWebHistory()
 });
 
-apps.use(authStore);
 apps.use(router).mount('#app');

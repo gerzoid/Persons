@@ -4,11 +4,13 @@ import { NTable, NTabs, NTabPane, NButton, NSpace } from "naive-ui";
 import Layout from "../components/layouts/Layout.vue";
 import { NSpin } from "naive-ui";
 import { useTablesStore } from "../stores/tablesStore";
-import {}
+import { useAuthStore } from "../stores/authStore";
 
 const tablesStore = useTablesStore();
+const authStore = useAuthStore();
 
 onMounted(() => {
+  console.log
   tablesStore.loadTables().then((response) => {});
 });
 </script>
@@ -47,7 +49,11 @@ onMounted(() => {
                       <router-link
                         :to="{ name: 'EditTable', params: { tableId: table.tableId } }"
                       >
-                        <n-button strong secondary type="warning"
+                        <n-button
+                          v-if="authStore.user?.isAsdmin"
+                          strong
+                          secondary
+                          type="warning"
                           >Редактировать
                         </n-button>
                       </router-link>

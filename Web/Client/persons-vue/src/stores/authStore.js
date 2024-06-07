@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('authStore', {
         email: null,
         token: '',
         expiration: null,
-        isAdmin: false,
+        isAdmin: null,
       },
     }),
     getters: {
@@ -22,16 +22,36 @@ export const useAuthStore = defineStore('authStore', {
           },
         isAdmin(){
           return this.user.isAdmin;
+        },
+        token(){
+          return localStorage.getItem('access_token')
         }
         },
     actions: {
       setUser(user){
-            this.name = user.username;
+        console.log(user);
+        this.name = user.username;
             this.email = user.email;
             this.token = user.token;
             this.expiration = user.expiration;
             this.isAdmin = user.isAdmin;
             console.log(this);
+      },
+      async fetchUser(token){
+        this.loading = true;
+        const result = await api.axios
+         .post("api/Identity/check", {
+           token: token,
+         })
+         .then((response) => {
+           console.log(response);
+           //localStorage.setItem("access_token", response.data.token);
+         })
+         .catch((error) => {
+           throw new Error("Не авторизован");
+         }).finally(() => {
+           this.loading = false;
+         });
       },
       async login(){
           this.loading = true;
