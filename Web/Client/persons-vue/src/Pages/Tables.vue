@@ -10,7 +10,7 @@ const tablesStore = useTablesStore();
 const authStore = useAuthStore();
 
 onMounted(() => {
-  console.log
+  console.log;
   tablesStore.loadTables().then((response) => {});
 });
 </script>
@@ -49,16 +49,12 @@ onMounted(() => {
                       <router-link
                         :to="{ name: 'EditTable', params: { tableId: table.tableId } }"
                       >
-                        <n-button
-                          v-if="authStore.user?.isAsdmin"
-                          strong
-                          secondary
-                          type="warning"
+                        <n-button v-if="authStore.isAdmin" strong secondary type="warning"
                           >Редактировать
                         </n-button>
                       </router-link>
 
-                      <router-link to="/table/3">
+                      <router-link :to="{ name: 'PersonsTable', params: { tableId: table.tableId } }">
                         <n-button strong secondary type="primary"> Открыть </n-button>
                       </router-link>
                     </n-space>

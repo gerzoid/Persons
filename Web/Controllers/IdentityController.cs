@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Domain.Entities;
 using Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,9 @@ namespace Web.Controllers
         [HttpPost("check")]
         public IActionResult Check(IIdentityService userService)
         {
-            var a = HttpContext.Items;
-
-            //var token = userService.GenerateJwtToken(user);
-            
-            return Ok();
+            if (HttpContext.Items.TryGetValue("User", out var userObject) && userObject is User user)
+                return Ok(new AuthenticateResponse(user,""));
+            return Unauthorized();
         }
 
         [HttpPost("login")]

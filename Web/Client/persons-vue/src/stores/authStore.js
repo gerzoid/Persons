@@ -30,12 +30,11 @@ export const useAuthStore = defineStore('authStore', {
     actions: {
       setUser(user){
         console.log(user);
-        this.name = user.username;
-            this.email = user.email;
-            this.token = user.token;
-            this.expiration = user.expiration;
-            this.isAdmin = user.isAdmin;
-            console.log(this);
+        this.user.name = user.username;
+            //this.email = user.email;
+            //this.token = user.token;
+        this.user.expiration = user.expiration;
+        this.user.isAdmin = user.isAdmin;
       },
       async fetchUser(token){
         this.loading = true;
@@ -44,8 +43,7 @@ export const useAuthStore = defineStore('authStore', {
            token: token,
          })
          .then((response) => {
-           console.log(response);
-           //localStorage.setItem("access_token", response.data.token);
+          this.setUser(response.data);           
          })
          .catch((error) => {
            throw new Error("Не авторизован");

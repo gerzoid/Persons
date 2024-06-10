@@ -27,7 +27,7 @@ const authGuard = (to, from, next) => {
     { path: '/admin/table/add', name:'AddTable', component: ()=>import('./Pages/Admin/AddTable.vue'), beforeEnter: authGuard },
     { path: '/admin/table/edit/:tableId', name:'EditTable', component:()=>import('./Pages/Admin/EditTable.vue'), beforeEnter: authGuard },
     { path: '/tables', name:'Tables', component: ()=>import('./Pages/Tables.vue'),  beforeEnter: authGuard },
-    { path: '/table/:id', name:'PersonsTable', component: ()=>import('./Pages/PersonsTable.vue'), beforeEnter: authGuard },
+    { path: '/table/:tableId', name:'PersonsTable', component: ()=>import('./Pages/PersonsTable.vue'), beforeEnter: authGuard },
 ];
 const router = createRouter({
     routes,

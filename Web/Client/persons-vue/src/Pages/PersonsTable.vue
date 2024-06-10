@@ -17,7 +17,7 @@ registerAllModules();
 
 const route = useRoute();
 
-personsStore.setTableId(route.params.id);
+personsStore.setTableId(route.params.tableId);
 
 function handleResize() {
   settings.value.height = window.innerHeight - 30 + "px";
