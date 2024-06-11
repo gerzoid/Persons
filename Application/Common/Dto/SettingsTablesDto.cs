@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Application.Common.Dto
+﻿namespace Application.Common.Dto
 {
     public class SettingsTablesDto
     {

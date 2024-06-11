@@ -23,6 +23,10 @@
     </PackageReference>
     <PackageReference Include="RepoDb" Version="1.13.2-alpha1" />
     <PackageReference Include="RepoDb.SqlServer" Version="1.13.2-alpha1" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.26.0.92422">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
   </ItemGroup>
 

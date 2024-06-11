@@ -15,19 +15,19 @@ namespace Application.Services
             _tablesRepo = tablesRepository;
         }
         public async Task<IEnumerable<TablesDto>> GetTablesAsync()
-        {            
+        {
             return (await _tablesRepo
                 .GetTablesAsync())
                 .Adapt<IEnumerable<Tables>, IEnumerable<TablesDto>>();
         }
         public async Task<TablesDto> GetTableAsync(int id)
         {
-            return  (await _tablesRepo.GetTableByIdAsync(id)).Adapt<Tables, TablesDto>();
+            return (await _tablesRepo.GetTableByIdAsync(id)).Adapt<Tables, TablesDto>();
             //var tableDTO = table.Adapt<Tables, TablesDto>();
             //return tableDTO;
         }
 
-        public async Task<int> AddTableAsync([FromBody]CreateTableRequest table)
+        public async Task<int> AddTableAsync([FromBody] CreateTableRequest table)
         {
             var tab = table.Adapt<Tables>();
             return await _tablesRepo.AddTableAsync(tab);

@@ -1,5 +1,4 @@
-﻿using Application.Common.Models;
-using Application.Configuration;
+﻿using Application.Configuration;
 using Domain.Entities;
 using Domain.Identity;
 using Microsoft.Extensions.Options;
@@ -13,7 +12,7 @@ namespace Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
         private readonly AppSettings _settings;
-        private List<User> _users = new List<User>() { new User() { FirstName = "Gerz", LastName = "Gerz", Id = 1, Password = "korobok", Username = "gerz", IsAdmin = true } };
+        private List<User> _users = new() { new User() { FirstName = "Gerz", LastName = "Gerz", Id = 1, Password = "korobok", Username = "gerz", IsAdmin = true } };
 
         public IdentityService(IOptions<AppSettings> settings)
         {

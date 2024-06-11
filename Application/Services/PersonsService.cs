@@ -3,7 +3,6 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Mapster;
 using System.Data;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Application.Services
 {
@@ -28,7 +27,7 @@ namespace Application.Services
                 col.Type = ConvertTypeSQLColumnToHandsontableFormat(col.Type);
                 col.ReadOnly = true;
             }
-            
+
             return response;
         }
         async Task<Tables> GetTableByIdAsync(int tableId)
@@ -53,7 +52,7 @@ namespace Application.Services
 
 
         public async Task<List<Column>> GetColumnsOfTable(string shema, string tableName)
-        {            
+        {
             var columns = await _personsRepository.GetColumnsOfTableAsync(shema, tableName);
             return columns;
         }
@@ -62,7 +61,7 @@ namespace Application.Services
         public async Task<DataTable> GetDataAsync(QueryPersonsRequest request)
         {
             var tab = await GetTableByIdAsync(request.TableId);
-            var table  = await _personsRepository.ReadTableAsync(tab.Shema, tab.TableName);
+            var table = await _personsRepository.ReadTableAsync(tab.Shema, tab.TableName);
             return table;
         }
 
