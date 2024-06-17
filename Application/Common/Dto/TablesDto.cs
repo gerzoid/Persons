@@ -18,6 +18,8 @@ namespace Application.Common.Dto
         public string[] Columns { get; set; }
         [AdaptIgnore]
         public string FullTableName { get { return Database + '.' + Shema + '.' + TableName; } }
+        [AdaptIgnore]
+        public bool notFoundTable {  get; set; }
 
     }
 }

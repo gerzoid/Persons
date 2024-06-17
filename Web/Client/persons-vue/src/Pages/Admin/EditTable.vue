@@ -12,7 +12,7 @@ var formRef = ref(null);
 
 onMounted(() => {
   tablesStore.loadTable(route.params.tableId).then((response) => {
-    console.log(response);
+    //console.log(response);
   });
 });
 </script>

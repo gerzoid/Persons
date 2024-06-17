@@ -1,8 +1,7 @@
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 
 export function useFormTableValidation(model){
-
-    const rules = {
+  const rules = reactive({
         name: {
           required: true,
           trigger: ["input", "blur"],
@@ -14,10 +13,8 @@ export function useFormTableValidation(model){
           validator (rule, value) {
             if (!value) {
               return new Error('Поле не может быть пустым')
-            } else
+              } else
             {
-              console.log('1',model.tableShema);
-              console.log('1',model.notFoundTable);
               //Признак наличия таблицы на сервере
                 if (model.notFoundTable==true) {
                     return new Error('Таблица не найдена')
@@ -60,6 +57,6 @@ export function useFormTableValidation(model){
           },
 
         },
-      };
+      });
       return {rules}
 }

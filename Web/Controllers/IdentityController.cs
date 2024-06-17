@@ -11,6 +11,7 @@ namespace Web.Controllers
     public class IdentityController : ControllerBase
     {
         [HttpPost("check")]
+        [AllowAnonymous]
         public IActionResult Check(IIdentityService userService)
         {
             if (HttpContext.Items.TryGetValue("User", out var userObject) && userObject is User user)

@@ -55,10 +55,7 @@ axio.interceptors.request.use(
         console.log('not logged');
         router.push("/login");
       }
-      if (error.response.status === 404) {
-        return Promise.reject(error);
-      }
-
+      return Promise.reject(error); // Передаем ошибку дальше
     }
   );
 

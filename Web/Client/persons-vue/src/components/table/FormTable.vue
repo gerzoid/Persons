@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { NForm, NFormItem, NSpace, NButton, NInput } from "naive-ui";
 import { useTablesStore } from "../../stores/tablesStore";
 import { useFormTableValidation } from "../../validations/tableValidation";
@@ -8,14 +8,14 @@ const tablesStore = useTablesStore();
 var formRef = ref(null);
 var buttonSaveIsLoading = ref(false);
 
-const { rules } = useFormTableValidation(tablesStore.table);
+const { rules } = useFormTableValidation(tablesStore.validation);
 
-function  handleSaveButtonClick2(e) {
-  formRef.value?.restoreValidation();
+function handleSaveButtonClick2(e) {
+  formRef.value?.validate();
 }
 
-function  handleSaveButtonClick(e) {
-  tablesStore.table.notFoundTable = false;
+function handleSaveButtonClick(e) {
+  tablesStore.validation.notFoundTable = false;
   e.preventDefault();
   formRef.value?.validate((errors) => {
     if (!errors) {
@@ -28,12 +28,9 @@ function  handleSaveButtonClick(e) {
         )
         .then((response) => {
           buttonSaveIsLoading.value = false;
-          formRef.value?.validate();
         })
         .catch((error) => {
           tablesStore.setNotFoundTable(true);
-          //tablesStore.table.notFoundTable = true;
-          console.log(tablesStore.table.notFoundTable);
           formRef.value?.validate();
         })
         .finally(() => {
@@ -76,7 +73,7 @@ function  handleSaveButtonClick(e) {
       </n-space>
     </n-form-item>
     <n-form-item label="Описание">
-      <n-input v-model:value="tablesStore.table.description" placeholder="" />      
+      <n-input v-model:value="tablesStore.table.description" placeholder="" />
     </n-form-item>
 
     <div style="display: flex; justify-content: flex-end">
@@ -88,14 +85,9 @@ function  handleSaveButtonClick(e) {
       >
         Проверить
       </n-button>
-      <n-button
-        round
-        type="primary"
-        @click="handleSaveButtonClick2"
-      >
+      <n-button round type="primary" @click="handleSaveButtonClick2">
         Сохранить
       </n-button>
-
     </div>
   </n-form>
 </template>

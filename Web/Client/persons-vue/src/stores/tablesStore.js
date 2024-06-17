@@ -1,3 +1,4 @@
+import { reactive } from 'vue';
 import { defineStore } from 'pinia'
 import Api from '../utils/api';
 
@@ -5,6 +6,9 @@ export const useTablesStore = defineStore('tablesStore', {
     state: () => ({
         loading: false,
         tables:[],  //Список таблиц
+        validation:{
+          notFoundTable: false,
+        },
         table:{
           tableId:null,
           name: null,
@@ -13,24 +17,23 @@ export const useTablesStore = defineStore('tablesStore', {
           tableName: null,
           description: null,
           countRecords:0,
-          notFoundTable: false,
           createdAt: null,
           updatedAt: null,
           expiredAt: null,
-          }
+          },
     }),
     getters: {
     },
     actions: {
           setNotFoundTable(finded) {
-            this.table.notFoundTable = finded;
+            this.validation.notFoundTable = finded;
           },
           async loadTable(tableId) {
             this.loading = true;
             try {
                 const result = await Api.GetTable(tableId);
                 this.table = result.data;
-              return this.table;
+              //return this.table;
             } catch (error) {
               console.error(error);
               throw error;
@@ -60,7 +63,7 @@ export const useTablesStore = defineStore('tablesStore', {
                 }).catch((error) => {
                   if (error.response.status === 404) {
                       this.table.countRecords = 0;
-                      //this.table.notFoundTable = true;
+                      tablesStore.validation.notFoundTable  =  true;
                       throw error;
                   }
                 }).finally(() => this.loading  = false );
