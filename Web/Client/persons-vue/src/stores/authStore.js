@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('authStore', {
            token: token,
          })
          .then((response) => {
-          this.setUser(response.data);           
+          this.setUser(response.data);
          })
          .catch((error) => {
            throw new Error("Не авторизован");

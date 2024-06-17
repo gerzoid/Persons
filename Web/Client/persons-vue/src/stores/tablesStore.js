@@ -22,7 +22,9 @@ export const useTablesStore = defineStore('tablesStore', {
     getters: {
     },
     actions: {
-        //async loadTable(tableId) {
+          setNotFoundTable(finded) {
+            this.table.notFoundTable = finded;
+          },
           async loadTable(tableId) {
             this.loading = true;
             try {
@@ -52,16 +54,16 @@ export const useTablesStore = defineStore('tablesStore', {
           },
           async CheckExistTable(database, shema, tableName) {
               this.loading  = true;
-              try {
-                    const result  = await Api.CheckExistTable(database, shema, tableName);
-                    this.table.countRecords = result.data;
-                    return this.table.countRecords;
-               } catch  (error)  {
-                   console.error(error);
-                throw error;
-               } finally  {
-                 this.loading  = false;
-               }
-            },
+                const resp  =  await Api.CheckExistTable(database, shema, tableName).then((response) => {
+                    this.table.countRecords = response.data;
+                    return this.table.countRecords
+                }).catch((error) => {
+                  if (error.response.status === 404) {
+                      this.table.countRecords = 0;
+                      //this.table.notFoundTable = true;
+                      throw error;
+                  }
+                }).finally(() => this.loading  = false );
           },
-    });
+    }
+})

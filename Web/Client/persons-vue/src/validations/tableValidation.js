@@ -16,7 +16,9 @@ export function useFormTableValidation(model){
               return new Error('Поле не может быть пустым')
             } else
             {
-                //Признак наличия таблицы на сервере
+              console.log('1',model.tableShema);
+              console.log('1',model.notFoundTable);
+              //Признак наличия таблицы на сервере
                 if (model.notFoundTable==true) {
                     return new Error('Таблица не найдена')
                 }

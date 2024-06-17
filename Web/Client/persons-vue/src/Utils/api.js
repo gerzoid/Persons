@@ -24,7 +24,7 @@ export default class api{
     return axio.get("/api/tables/"+tableId);
   }
 
-  static CheckExistTable(database, shema, tableName){
-    return axio.post("/api/persons/checktable", {database:database, shema:shema, tableName:tableName});
+  static async CheckExistTable(database, shema, tableName){
+    return await axio.post("/api/persons/checktable", {database:database, shema:shema, tableName:tableName});
   }
 }

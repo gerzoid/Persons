@@ -10,7 +10,11 @@ var buttonSaveIsLoading = ref(false);
 
 const { rules } = useFormTableValidation(tablesStore.table);
 
-function handleSaveButtonClick(e) {
+function  handleSaveButtonClick2(e) {
+  formRef.value?.restoreValidation();
+}
+
+function  handleSaveButtonClick(e) {
   tablesStore.table.notFoundTable = false;
   e.preventDefault();
   formRef.value?.validate((errors) => {
@@ -23,11 +27,13 @@ function handleSaveButtonClick(e) {
           tablesStore.table.tableName
         )
         .then((response) => {
-          console.log(response); //TODO
           buttonSaveIsLoading.value = false;
+          formRef.value?.validate();
         })
         .catch((error) => {
-          tablesStore.table.notFoundTable = true;
+          tablesStore.setNotFoundTable(true);
+          //tablesStore.table.notFoundTable = true;
+          console.log(tablesStore.table.notFoundTable);
           formRef.value?.validate();
         })
         .finally(() => {
@@ -35,7 +41,7 @@ function handleSaveButtonClick(e) {
         });
     } else {
       console.log(errors);
-      message.error("Invalid");
+      //message.error("Invalid");
     }
   });
 }
@@ -70,7 +76,7 @@ function handleSaveButtonClick(e) {
       </n-space>
     </n-form-item>
     <n-form-item label="Описание">
-      <n-input v-model:value="tablesStore.table.description" placeholder="" />
+      <n-input v-model:value="tablesStore.table.description" placeholder="" />      
     </n-form-item>
 
     <div style="display: flex; justify-content: flex-end">
@@ -82,6 +88,14 @@ function handleSaveButtonClick(e) {
       >
         Проверить
       </n-button>
+      <n-button
+        round
+        type="primary"
+        @click="handleSaveButtonClick2"
+      >
+        Сохранить
+      </n-button>
+
     </div>
   </n-form>
 </template>
