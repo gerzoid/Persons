@@ -10,11 +10,11 @@ var buttonSaveIsLoading = ref(false);
 
 const { rules } = useFormTableValidation(tablesStore.validation);
 
-function handleSaveButtonClick2(e) {
+function handleSaveButtonClick(e) {
   formRef.value?.validate();
 }
 
-function handleSaveButtonClick(e) {
+function handleCheckButtonClick(e) {
   tablesStore.validation.notFoundTable = false;
   e.preventDefault();
   formRef.value?.validate((errors) => {
@@ -79,13 +79,16 @@ function handleSaveButtonClick(e) {
     <div style="display: flex; justify-content: flex-end">
       <n-button
         :loading="buttonSaveIsLoading"
-        round
-        type="primary"
-        @click="handleSaveButtonClick"
+        type="info"
+        @click="handleCheckButtonClick"
       >
         Проверить
       </n-button>
-      <n-button round type="primary" @click="handleSaveButtonClick2">
+      <n-button
+        type="primary"
+        :disabled="!tablesStore.validation.checked"
+        @click="handleSaveButtonClick"
+      >
         Сохранить
       </n-button>
     </div>

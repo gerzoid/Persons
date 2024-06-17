@@ -1,6 +1,7 @@
 import { reactive, ref } from "vue";
 
 export function useFormTableValidation(model){
+
   const rules = reactive({
         name: {
           required: true,
@@ -11,6 +12,7 @@ export function useFormTableValidation(model){
           required: true,
           trigger: ["input", "blur"],
           validator (rule, value) {
+            model.checked = false;
             if (!value) {
               return new Error('Поле не может быть пустым')
               } else
@@ -28,6 +30,7 @@ export function useFormTableValidation(model){
           required: true,
           trigger: ["input", "blur"],
           validator (rule, value) {
+            model.checked = false;
             if (!value) {
               return new Error('Поле не может быть пустым')
             } else
@@ -44,6 +47,7 @@ export function useFormTableValidation(model){
           required: true,
           trigger: ["input", "blur"],
           validator (rule, value) {
+            model.checked = false;
             if (!value) {
               return new Error('Поле не может быть пустым')
             } else

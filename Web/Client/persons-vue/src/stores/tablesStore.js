@@ -7,7 +7,8 @@ export const useTablesStore = defineStore('tablesStore', {
         loading: false,
         tables:[],  //Список таблиц
         validation:{
-          notFoundTable: false,
+          notFoundTable: false, //Признак наличия таблицы на сервере
+          checked: false, //Признак проверки наличия таблицы на сервере, влияет на кнопку Сохранить
         },
         table:{
           tableId:null,
@@ -59,10 +60,12 @@ export const useTablesStore = defineStore('tablesStore', {
               this.loading  = true;
                 const resp  =  await Api.CheckExistTable(database, shema, tableName).then((response) => {
                     this.table.countRecords = response.data;
+                    this.validation.checked  =  true;
                     return this.table.countRecords
                 }).catch((error) => {
                   if (error.response.status === 404) {
                       this.table.countRecords = 0;
+                      this.validation.checked  =  false;
                       tablesStore.validation.notFoundTable  =  true;
                       throw error;
                   }
