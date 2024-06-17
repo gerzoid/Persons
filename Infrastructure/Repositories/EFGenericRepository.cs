@@ -45,9 +45,9 @@ namespace Infrastructure.Repositories
             return _dbSet.Where(expression);
         }
 
-        public void Create(T item)
+        public async void Create(T item)
         {
-            _dbSet.Add(item);
+            await _dbSet.AddAsync(item);
         }
         public void Update(T item)
         {

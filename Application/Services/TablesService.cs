@@ -27,11 +27,17 @@ namespace Application.Services
             //return tableDTO;
         }
 
-        public async Task<int> AddTableAsync([FromBody] CreateTableRequest table)
+        public async Task<int> CreateTableAsync([FromBody] CreateTableRequest table)
         {
             var tab = table.Adapt<Tables>();
-            return await _tablesRepo.AddTableAsync(tab);
+            return await _tablesRepo.CreateTableAsync(tab);
         }
+        public async Task<int> UpdateTableAsync([FromBody] CreateTableRequest table)
+        {
+            var tab = table.Adapt<Tables>();
+            return await _tablesRepo.CreateTableAsync(tab); //TODO
+        }
+
     }
 
 }

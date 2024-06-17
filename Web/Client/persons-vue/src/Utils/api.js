@@ -15,9 +15,13 @@ export default class api{
     //return axio.get("/api/tables/".tableId", {params:{tableId:tableId}});
     return axio.get("/api/tables/"+tableId);
   }
-  static SaveTable(table){
-    return axio.post("/api/tables/savedata", {Table:table});
+  static CreateTable(table){
+    return axio.put("/api/tables/", {Table:table});
   }
+  static SaveTable(table){
+    return axio.post("/api/tables/", {Table:table});
+  }
+
 
   static OpenTable(tableId){
     return axio.post("/api/persons/opentable", {TableId:tableId});

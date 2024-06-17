@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<int> AddTableAsync(Tables table)
+        public async Task<int> CreateTableAsync(Tables table)
         {
             var createdTable = _context.Set<Tables>().Add(table);
             await _context.SaveChangesAsync();
