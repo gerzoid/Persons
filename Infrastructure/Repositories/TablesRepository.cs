@@ -13,15 +13,14 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class TablesRepository :  ITablesRepository
+    public class TablesRepository : EFGenericRepository<Tables>, ITablesRepository
     {
         private readonly PersonsDbContext _context;
 
-        public TablesRepository(PersonsDbContext context)
+        public TablesRepository(PersonsDbContext context) : base(context)
         {
             _context = context;
         }
-
         public async Task<int> AddTableAsync(Tables table)
         {
             var createdTable = _context.Set<Tables>().Add(table);
@@ -39,7 +38,7 @@ namespace Infrastructure.Repositories
             return _context.Set<Tables>()
                 .AsNoTracking()
                 .Include(u => u.Settings)
-                .Where(d => d.TableId == id)                
+                .Where(d => d.TableId == id)
                 .FirstOrDefault();
         }
 
@@ -54,3 +53,4 @@ namespace Infrastructure.Repositories
 
     }
 }
+

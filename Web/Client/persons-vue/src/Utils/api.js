@@ -11,6 +11,14 @@ export default class api{
   static GetTables(){
     return axio.get("/api/tables", {params:{}});
   }
+  static GetTable(tableId){
+    //return axio.get("/api/tables/".tableId", {params:{tableId:tableId}});
+    return axio.get("/api/tables/"+tableId);
+  }
+  static SaveTable(table){
+    return axio.post("/api/tables/savedata", {Table:table});
+  }
+
   static OpenTable(tableId){
     return axio.post("/api/persons/opentable", {TableId:tableId});
   }
@@ -19,12 +27,9 @@ export default class api{
     return axio.post("/api/persons/getdata", {TableId:tableId, PageSize:100, Page:1, Filters:[], Sorts:[]});
   }
 
-  static GetTable(tableId){
-    //return axio.get("/api/tables/".tableId", {params:{tableId:tableId}});
-    return axio.get("/api/tables/"+tableId);
-  }
-
   static async CheckExistTable(database, shema, tableName){
     return await axio.post("/api/persons/checktable", {database:database, shema:shema, tableName:tableName});
   }
+
+
 }
