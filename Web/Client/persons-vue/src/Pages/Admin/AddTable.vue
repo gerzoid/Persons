@@ -5,7 +5,9 @@ import FormTable from "../../components/table/FormTable.vue";
 
 var formRef = ref(null);
 
-onMounted(() => {});
+onMounted(() => {
+  tablesStore.addingNewTable = true; //Создание
+});
 </script>
 
 <template>

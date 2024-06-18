@@ -30,12 +30,14 @@ namespace Application.Services
         public async Task<int> CreateTableAsync([FromBody] CreateTableRequest table)
         {
             var tab = table.Adapt<Tables>();
+            tab.CreatedAt = DateTime.Now;
             return await _tablesRepo.CreateTableAsync(tab);
         }
-        public async Task<int> UpdateTableAsync([FromBody] CreateTableRequest table)
+        public async Task<Tables> UpdateTableAsync([FromBody] CreateTableRequest table)
         {
             var tab = table.Adapt<Tables>();
-            return await _tablesRepo.CreateTableAsync(tab); //TODO
+            tab.UpdatedAt = DateTime.Now;
+            return await _tablesRepo.UpdateTableAsync(tab); //TODO
         }
 
     }

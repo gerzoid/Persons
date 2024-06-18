@@ -6,7 +6,7 @@ namespace Domain.Entities
     [Index(nameof(TableId),nameof(Name))]
     public class SettingsTables
     {
-        [Key]
+        [Key]        
         public int SettingsTableId { get; set; }
         public int TableId { get; set; }
         public Tables Table { get; set; }

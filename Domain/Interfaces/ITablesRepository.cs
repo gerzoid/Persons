@@ -14,6 +14,7 @@ namespace Domain.Interfaces
         //Получить всю информацию от таблице и её настройках
         public Task<Tables?> GetTableByIdAsync(int id);
         public Task<int> CreateTableAsync(Tables table);
+        public Task<Tables> UpdateTableAsync(Tables table);
 
     }
 }

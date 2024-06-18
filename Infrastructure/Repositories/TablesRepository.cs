@@ -51,6 +51,21 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        
+        public async Task<Tables> UpdateTableAsync(Tables table)
+        {
+            _context.Entry(table).State = EntityState.Modified;
+            // Обновление вложенных сущностей SettingsTables
+            //foreach (var setting in table.Settings)
+            //{
+                //_context.Entry(setting).State = setting.SettingsTableId == 0 ? EntityState.Added : EntityState.Modified;
+            //}
+
+            await _context.SaveChangesAsync();
+            return _context.Entry(table).Entity;
+            // Обновление вложенных сущностей SettingsTables
+        }
+
     }
 }
 

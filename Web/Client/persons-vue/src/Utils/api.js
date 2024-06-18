@@ -6,8 +6,6 @@ export default class api{
 
   static axios = axio;
 
-
-  
   static GetTables(){
     return axio.get("/api/tables", {params:{}});
   }
@@ -16,12 +14,11 @@ export default class api{
     return axio.get("/api/tables/"+tableId);
   }
   static CreateTable(table){
-    return axio.put("/api/tables/", {Table:table});
+    return axio.put("/api/tables/", {table:table});
   }
   static SaveTable(table){
-    return axio.post("/api/tables/", {Table:table});
+    return axio.post("/api/tables/", table);
   }
-
 
   static OpenTable(tableId){
     return axio.post("/api/persons/opentable", {TableId:tableId});

@@ -6,6 +6,7 @@ export const useTablesStore = defineStore('tablesStore', {
     state: () => ({
         loading: false,
         tables:[],  //Список таблиц
+        addingNewTable: false,  //Добавление или редактирование таблицы
         validation:{
           notFoundTable: false, //Признак наличия таблицы на сервере
           checked: false, //Признак проверки наличия таблицы на сервере, влияет на кнопку Сохранить
@@ -71,5 +72,15 @@ export const useTablesStore = defineStore('tablesStore', {
                   }
                 }).finally(() => this.loading  = false );
           },
+          async SaveTable() {
+            if (this.addingNewTable) {
+                const result = await Api.CreateTable(this.table);
+            }
+            if (!this.addingNewTable) {const result  = await Api.SaveTable(this.table);
+               this.table  =  result.data;
+               this.addingNewTable  =  false;
+           }
+            const result = await Api.SaveTable(table, this.addingNewTable);
+          }
     }
 })

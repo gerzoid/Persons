@@ -11,7 +11,7 @@ var buttonSaveIsLoading = ref(false);
 const { rules } = useFormTableValidation(tablesStore.validation);
 
 function handleSaveButtonClick(e) {
-  formRef.value?.validate();
+  tablesStore.SaveTable();
 }
 
 function handleCheckButtonClick(e) {

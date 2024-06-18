@@ -1,6 +1,7 @@
 using Application.Common.Dto;
 using Application.Common.Models;
 using Application.Services;
+using Domain.Entities;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,17 +37,17 @@ namespace Web.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<TablesDto>> CreateTableAsync(CreateTableRequest table)
+        public async Task<ActionResult<TablesDto>> CreateTableAsync(CreateTableRequest Table)
         {
-            var result = await _tablesService.CreateTableAsync(table);
+            var result = await _tablesService.CreateTableAsync(Table);
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<TablesDto>> UpdateTableAsync(CreateTableRequest table)
+        public async Task<ActionResult<Tables>> UpdateTableAsync([FromBody]CreateTableRequest request)
         {
-            var result = await _tablesService.UpdateTableAsync(table);
-            return Ok(result);
+            var table = await _tablesService.UpdateTableAsync(request);
+            return Ok(table);
         }
 
     }
