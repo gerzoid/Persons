@@ -2,9 +2,8 @@
 
 namespace Application.Common.Dto
 {
-    public class TablesDto
+    public class TablesBaseDto
     {
-        public int TableId { get; set; }
         public required string Name { get; set; }
         public required string Database { get; set; }
         public required string Shema { get; set; }

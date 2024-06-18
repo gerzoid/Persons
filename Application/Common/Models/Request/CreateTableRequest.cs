@@ -7,6 +7,8 @@ namespace Application.Common.Models
     [JsonObject("table")]
     public class CreateTableRequest
     {
+        [JsonPropertyName("tableId")]
+        public int TableId { get; set; }
         [JsonPropertyName("name")]
         public required string Name { get; set; }
         [JsonPropertyName("database")]

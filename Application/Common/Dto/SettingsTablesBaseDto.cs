@@ -3,10 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace Application.Common.Dto
 {
-    public class SettingsTablesDto
+    public class SettingsTablesBaseDto
     {
-        [AdaptIgnore]
-        public int SettingsTableId { get; set; }
         //Название настройки        
         [JsonPropertyName("name")]
         public required string Name { get; set; }
