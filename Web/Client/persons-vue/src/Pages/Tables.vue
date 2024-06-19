@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 import { NTable, NTabs, NTabPane, NButton, NSpace } from "naive-ui";
 import Layout from "../components/layouts/Layout.vue";
 import { NSpin } from "naive-ui";
+import moment from 'moment';
 import { useTablesStore } from "../stores/tablesStore";
 import { useAuthStore } from "../stores/authStore";
 
@@ -25,7 +26,7 @@ onMounted(() => {
             :show="tablesStore.loading"
             size="large"
             stroke="black"
-            content-style="color:white;"
+            content-style="color:black;"
             :stroke-width="30"
           >
             <router-link v-if="authStore.isAdmin" :to="{ name: 'AddTable' }">Добавить таблицу</router-link>
@@ -44,7 +45,7 @@ onMounted(() => {
                 <tr v-for="table in tablesStore.tables">
                   <td>{{ table.name }}</td>
                   <td>{{ table.description  }}</td>
-                  <td>{{ table.createdAt }}</td>
+                  <td>{{ moment(table.createdAt, 'DD.MM.YYYY') }}</td>
                   <td>{{ table.expiredAt }}</td>
                   <td>{{ table.userId }}</td>
                   <td>

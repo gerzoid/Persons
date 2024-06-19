@@ -9,12 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "-": "^0.0.1",
     "@handsontable/vue3": "^14.3.0",
     "@vicons/carbon": "^0.12.0",
     "@vicons/ionicons5": "^0.12.0",
     "axios": "^1.6.7",
     "handsontable": "^14.3.0",
+    "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"
