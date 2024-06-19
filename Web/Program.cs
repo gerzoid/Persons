@@ -46,6 +46,8 @@ namespace Web
             string connectionString = builder.Configuration.GetConnectionString("PrimaryDbConnection");
             builder.Services.AddDbContext<PersonsDbContext>(options => { options.UseSqlServer(connectionString); } );
 
+            builder.Services.AddHttpContextAccessor();
+            
             builder.Services.AddControllers();            
             builder.Services.AddEndpointsApiExplorer();
             

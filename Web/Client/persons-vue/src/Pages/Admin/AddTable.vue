@@ -11,6 +11,7 @@ var formRef = ref(null);
 
 onMounted(() => {
   tablesStore.table = new Table();
+  tablesStore.table.userId = 
   tablesStore.addingNewTable = true; //Создание
 });
 </script>

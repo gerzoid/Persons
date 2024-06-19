@@ -15,6 +15,7 @@ namespace Application.Common.Dto
         public DateTime? UpdatedAt { get; set; }
         public DateTime? ExpiredAt { get; set; }
         public List<SettingsTablesDto>? Settings { get; set; }
+        public int UserId {  get; set; }
         public string[] Columns { get; set; }
         [AdaptIgnore]
         public string FullTableName { get { return Database + '.' + Shema + '.' + TableName; } }

@@ -1,5 +1,5 @@
 export class Table {
-    update({tableId, name, database, shema, tableName, description, countRecords, createdAt, updatedAt, expiredAt, settings}) {
+    update({tableId, name, database, shema, tableName, description, countRecords, createdAt, updatedAt, expiredAt, settings, userId}) {
         this.tableId = tableId;
         this.name = name;
         this.database = database;
@@ -11,6 +11,7 @@ export class Table {
         this.updatedAt = updatedAt;
         this.expiredAt = expiredAt;
         this.settings = settings;
+        this.userId = userId;
     }
     constructor() {
         this.tableId = 0;
@@ -24,6 +25,7 @@ export class Table {
         this.updatedAt =  null;
         this.expiredAt =  null;
         this.settings =  null;
+        this.userId =  0;
     }
 
 }

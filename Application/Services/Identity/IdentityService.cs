@@ -1,6 +1,7 @@
 ﻿using Application.Configuration;
 using Domain.Entities;
 using Domain.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,11 +13,14 @@ namespace Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
         private readonly AppSettings _settings;
+        private readonly IHttpContextAccessor _httpContext;
+
         private List<User> _users = new() { new User() { FirstName = "Gerz", LastName = "Gerz", Id = 1, Password = "korobok", Username = "gerz", IsAdmin = true } };
 
-        public IdentityService(IOptions<AppSettings> settings)
+        public IdentityService(IOptions<AppSettings> settings, IHttpContextAccessor httpContext)
         {
             _settings = settings.Value;
+            _httpContext = httpContext;
         }
 
         public User? Authenticate(string login, string password)
@@ -27,6 +31,13 @@ namespace Infrastructure.Identity
         public User GetById(int id)
         {
             return _users.SingleOrDefault(d => d.Id == id);
+        }
+
+        public User? GetCurrentUser()
+        {
+            if (_httpContext.HttpContext.Items.TryGetValue("User", out var userObject) && userObject is User user)
+                return user;
+            return null;
         }
 
         public string GenerateJwtToken(User user)

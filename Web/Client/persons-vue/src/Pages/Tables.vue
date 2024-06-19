@@ -36,6 +36,7 @@ onMounted(() => {
                   <th>Описание</th>
                   <th>Дата создания</th>
                   <th>Дата закрытия</th>
+                  <th>Автор</th>
                   <th>Действия</th>
                 </tr>
               </thead>
@@ -45,6 +46,7 @@ onMounted(() => {
                   <td>{{ table.description  }}</td>
                   <td>{{ table.createdAt }}</td>
                   <td>{{ table.expiredAt }}</td>
+                  <td>{{ table.userId }}</td>
                   <td>
                     <n-space>
                       <router-link

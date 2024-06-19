@@ -11,7 +11,8 @@ namespace Domain.Identity
     public interface IIdentityService
     {
         User Authenticate(string login, string password);
-        User GetById(int id);        
+        User GetById(int id);
+        User? GetCurrentUser();
         string GenerateJwtToken(User user);
     }
 }
