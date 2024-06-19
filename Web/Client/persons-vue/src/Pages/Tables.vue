@@ -10,7 +10,7 @@ const tablesStore = useTablesStore();
 const authStore = useAuthStore();
 
 onMounted(() => {
-  console.log;
+  console.log('loadTables');
   tablesStore.loadTables().then((response) => {});
 });
 </script>
@@ -20,7 +20,7 @@ onMounted(() => {
   <Layout>
     <div class="content">
       <n-tabs type="segment" animated>
-        <n-tab-pane name="Активные" tab="Active">
+        <n-tab-pane name="Active" tab="Активные">
           <n-spin
             :show="tablesStore.loading"
             size="large"
@@ -28,6 +28,7 @@ onMounted(() => {
             content-style="color:white;"
             :stroke-width="30"
           >
+            <router-link v-if="authStore.isAdmin" :to="{ name: 'AddTable' }">Добавить таблицу</router-link>
             <n-table size="small">
               <thead>
                 <tr>
@@ -41,7 +42,7 @@ onMounted(() => {
               <tbody>
                 <tr v-for="table in tablesStore.tables">
                   <td>{{ table.name }}</td>
-                  <td>{{ table.description }}</td>
+                  <td>{{ table.description  }}</td>
                   <td>{{ table.createdAt }}</td>
                   <td>{{ table.expiredAt }}</td>
                   <td>
@@ -64,7 +65,7 @@ onMounted(() => {
             </n-table>
           </n-spin>
         </n-tab-pane>
-        <n-tab-pane name="Закрытые" tab="Closed"> </n-tab-pane>
+        <n-tab-pane name="Closed" tab="Закрытые"> </n-tab-pane>
       </n-tabs>
     </div>
   </Layout>

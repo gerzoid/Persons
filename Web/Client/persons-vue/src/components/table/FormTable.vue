@@ -2,18 +2,22 @@
 import { ref, reactive } from "vue";
 import { NForm, NFormItem, NSpace, NButton, NInput } from "naive-ui";
 import { useTablesStore } from "../../stores/tablesStore";
+import { useRouter } from "vue-router";
 import { useFormTableValidation } from "../../validations/tableValidation";
 
 const tablesStore = useTablesStore();
+const router = useRouter();
+
 var formRef = ref(null);
 var buttonSaveIsLoading = ref(false);
 
 const { rules } = useFormTableValidation(tablesStore.validation);
 
 function handleSaveButtonClick(e) {
-  tablesStore.SaveTable();
+  tablesStore.SaveTable().then((response) => {
+    router.push("/tables");
+  });
 }
-
 function handleCheckButtonClick(e) {
   tablesStore.validation.notFoundTable = false;
   e.preventDefault();

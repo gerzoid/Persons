@@ -14,7 +14,7 @@ export default class api{
     return axio.get("/api/tables/"+tableId);
   }
   static CreateTable(table){
-    return axio.put("/api/tables/", {table:table});
+    return axio.put("/api/tables/", table);
   }
   static SaveTable(table){
     return axio.post("/api/tables/", table);

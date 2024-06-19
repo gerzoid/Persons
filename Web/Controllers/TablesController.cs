@@ -37,9 +37,9 @@ namespace Web.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<TablesDto>> CreateTableAsync(CreateTableRequest Table)
+        public async Task<ActionResult<TablesDto>> CreateTableAsync([FromBody]CreateTableRequest request)
         {
-            var result = await _tablesService.CreateTableAsync(Table);
+            var result = await _tablesService.CreateTableAsync(request);
             return Ok(result);
         }
 

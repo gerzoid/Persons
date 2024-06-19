@@ -2,10 +2,15 @@
 import { onMounted, ref } from "vue";
 import Layout from "../../components/layouts/Layout.vue";
 import FormTable from "../../components/table/FormTable.vue";
+import { useTablesStore } from "../../stores/tablesStore";
+import { Table } from "../../models/table.js";
+
+const tablesStore = useTablesStore();
 
 var formRef = ref(null);
 
 onMounted(() => {
+  tablesStore.table = new Table();
   tablesStore.addingNewTable = true; //Создание
 });
 </script>
