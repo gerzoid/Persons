@@ -10,9 +10,9 @@ using System.Text;
 
 namespace Infrastructure.Identity;
 
-public class IdentityService(AppSettings settings, IHttpContextAccessor httpContext) : IIdentityService
+public class IdentityService(IOptions<AppSettings> settings, IHttpContextAccessor httpContext) : IIdentityService
 {
-    private readonly AppSettings _settings = settings;
+    private readonly AppSettings _settings = settings.Value;
     private readonly IHttpContextAccessor _httpContext = httpContext;
 
     private List<User> _users = new() { new User() { FirstName = "Gerz", LastName = "Gerz", Id = 1, Password = "korobok", Username = "gerz", IsAdmin = true } };
