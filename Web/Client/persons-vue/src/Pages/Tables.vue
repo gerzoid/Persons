@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 import { NTable, NTabs, NTabPane, NButton, NSpace } from "naive-ui";
 import Layout from "../components/layouts/Layout.vue";
 import { NSpin } from "naive-ui";
-import moment from 'moment';
+import moment from "moment";
 import { useTablesStore } from "../stores/tablesStore";
 import { useAuthStore } from "../stores/authStore";
 
@@ -11,7 +11,7 @@ const tablesStore = useTablesStore();
 const authStore = useAuthStore();
 
 onMounted(() => {
-  console.log('loadTables');
+  console.log("loadTables");
   tablesStore.loadTables().then((response) => {});
 });
 </script>
@@ -29,7 +29,9 @@ onMounted(() => {
             content-style="color:black;"
             :stroke-width="30"
           >
-            <router-link v-if="authStore.isAdmin" :to="{ name: 'AddTable' }">Добавить таблицу</router-link>
+            <router-link v-if="authStore.isAdmin" :to="{ name: 'AddTable' }"
+              >Добавить таблицу</router-link
+            >
             <n-table size="small">
               <thead>
                 <tr>
@@ -44,9 +46,17 @@ onMounted(() => {
               <tbody>
                 <tr v-for="table in tablesStore.tables">
                   <td>{{ table.name }}</td>
-                  <td>{{ table.description  }}</td>
-                  <td>{{ moment(table.createdAt, 'DD.MM.YYYY') }}</td>
-                  <td>{{ table.expiredAt }}</td>
+                  <td>{{ table.description }}</td>
+                  <td>
+                    {{ moment(table.createdAt).format("DD.MM.YYYY") }}
+                  </td>
+                  <td>
+                    {{
+                      table.expiredAt !== null && table.expiredAt != ""
+                        ? moment(table.expiredAt).format("DD.MM.YYYY")
+                        : ""
+                    }}
+                  </td>
                   <td>{{ table.userId }}</td>
                   <td>
                     <n-space>
@@ -58,7 +68,9 @@ onMounted(() => {
                         </n-button>
                       </router-link>
 
-                      <router-link :to="{ name: 'PersonsTable', params: { tableId: table.tableId } }">
+                      <router-link
+                        :to="{ name: 'PersonsTable', params: { tableId: table.tableId } }"
+                      >
                         <n-button strong secondary type="primary"> Открыть </n-button>
                       </router-link>
                     </n-space>
