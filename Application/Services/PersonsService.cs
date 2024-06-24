@@ -44,8 +44,6 @@ public class PersonsService(ITablesRepository tablesRepository, IPersonsReposito
         return cnt;
     }
 
-
-
     public async Task<List<Column>> GetColumnsOfTable(string shema, string tableName)
     {
         var columns = await _personsRepository.GetColumnsOfTableAsync(shema, tableName);

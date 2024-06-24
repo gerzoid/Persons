@@ -67,6 +67,7 @@ namespace Web
 
             builder.Services.AddScoped<TablesService>();
             builder.Services.AddScoped<PersonsService>();
+            builder.Services.AddScoped<ExportsService>();
             builder.Services.AddScoped<ITablesRepository, TablesRepository>();
             builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
