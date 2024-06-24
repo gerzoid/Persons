@@ -8,51 +8,44 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity;
+
+public class IdentityService(AppSettings settings, IHttpContextAccessor httpContext) : IIdentityService
 {
-    public class IdentityService : IIdentityService
+    private readonly AppSettings _settings = settings;
+    private readonly IHttpContextAccessor _httpContext = httpContext;
+
+    private List<User> _users = new() { new User() { FirstName = "Gerz", LastName = "Gerz", Id = 1, Password = "korobok", Username = "gerz", IsAdmin = true } };
+
+    public User? Authenticate(string login, string password)
     {
-        private readonly AppSettings _settings;
-        private readonly IHttpContextAccessor _httpContext;
+        return _users.SingleOrDefault(d => d.Username == login && d.Password == password);
+    }
 
-        private List<User> _users = new() { new User() { FirstName = "Gerz", LastName = "Gerz", Id = 1, Password = "korobok", Username = "gerz", IsAdmin = true } };
+    public User GetById(int id)
+    {
+        return _users.SingleOrDefault(d => d.Id == id);
+    }
 
-        public IdentityService(IOptions<AppSettings> settings, IHttpContextAccessor httpContext)
+    public User? GetCurrentUser()
+    {
+        if (_httpContext.HttpContext.Items.TryGetValue("User", out var userObject) && userObject is User user)
+            return user;
+        return null;
+    }
+
+    public string GenerateJwtToken(User user)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_settings.Secret);
+        var tokenDescriptor = new SecurityTokenDescriptor()
         {
-            _settings = settings.Value;
-            _httpContext = httpContext;
-        }
+            Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()), new Claim(ClaimTypes.NameIdentifier, user.Username) }, "Custom"),
+            Expires = DateTime.UtcNow.AddDays(7),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
 
-        public User? Authenticate(string login, string password)
-        {
-            return _users.SingleOrDefault(d => d.Username == login && d.Password == password);
-        }
-
-        public User GetById(int id)
-        {
-            return _users.SingleOrDefault(d => d.Id == id);
-        }
-
-        public User? GetCurrentUser()
-        {
-            if (_httpContext.HttpContext.Items.TryGetValue("User", out var userObject) && userObject is User user)
-                return user;
-            return null;
-        }
-
-        public string GenerateJwtToken(User user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_settings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()), new Claim(ClaimTypes.NameIdentifier, user.Username) }, "Custom"),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-
-        }
     }
 }
