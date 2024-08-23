@@ -82,10 +82,10 @@ namespace Application.Services.Identity
             return _users.SingleOrDefault(d => d.Username == login && d.Password == password);
         }
 
-        public User GetById(int id)
-        {
-            return _users.SingleOrDefault(d => d.Id == id);
-        }
+    public User GetById(int id)
+    {
+        return _users.SingleOrDefault(d => d.Id == id);
+    }
 
         public string GenerateJwtToken(User user)
         {

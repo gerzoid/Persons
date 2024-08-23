@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 import { NTable, NTabs, NTabPane, NButton, NSpace } from "naive-ui";
 import Layout from "../components/layouts/Layout.vue";
 import { NSpin } from "naive-ui";
+import moment from "moment";
 import { useTablesStore } from "../stores/tablesStore";
 import { useAuthStore } from "../stores/authStore";
 
@@ -10,7 +11,7 @@ const tablesStore = useTablesStore();
 const authStore = useAuthStore();
 
 onMounted(() => {
-  console.log;
+  console.log("loadTables");
   tablesStore.loadTables().then((response) => {});
 });
 </script>
@@ -20,14 +21,17 @@ onMounted(() => {
   <Layout>
     <div class="content">
       <n-tabs type="segment" animated>
-        <n-tab-pane name="Активные" tab="Active">
+        <n-tab-pane name="Active" tab="Активные">
           <n-spin
             :show="tablesStore.loading"
             size="large"
             stroke="black"
-            content-style="color:white;"
+            content-style="color:black;"
             :stroke-width="30"
           >
+            <router-link v-if="authStore.isAdmin" :to="{ name: 'AddTable' }"
+              >Добавить таблицу</router-link
+            >
             <n-table size="small">
               <thead>
                 <tr>
@@ -35,6 +39,7 @@ onMounted(() => {
                   <th>Описание</th>
                   <th>Дата создания</th>
                   <th>Дата закрытия</th>
+                  <th>Автор</th>
                   <th>Действия</th>
                 </tr>
               </thead>
@@ -42,8 +47,17 @@ onMounted(() => {
                 <tr v-for="table in tablesStore.tables">
                   <td>{{ table.name }}</td>
                   <td>{{ table.description }}</td>
-                  <td>{{ table.createdAt }}</td>
-                  <td>{{ table.expiredAt }}</td>
+                  <td>
+                    {{ moment(table.createdAt).format("DD.MM.YYYY") }}
+                  </td>
+                  <td>
+                    {{
+                      table.expiredAt !== null && table.expiredAt != ""
+                        ? moment(table.expiredAt).format("DD.MM.YYYY")
+                        : ""
+                    }}
+                  </td>
+                  <td>{{ table.userId }}</td>
                   <td>
                     <n-space>
                       <router-link
@@ -54,7 +68,9 @@ onMounted(() => {
                         </n-button>
                       </router-link>
 
-                      <router-link :to="{ name: 'PersonsTable', params: { tableId: table.tableId } }">
+                      <router-link
+                        :to="{ name: 'PersonsTable', params: { tableId: table.tableId } }"
+                      >
                         <n-button strong secondary type="primary"> Открыть </n-button>
                       </router-link>
                     </n-space>
@@ -64,7 +80,7 @@ onMounted(() => {
             </n-table>
           </n-spin>
         </n-tab-pane>
-        <n-tab-pane name="Закрытые" tab="Closed"> </n-tab-pane>
+        <n-tab-pane name="Closed" tab="Закрытые"> </n-tab-pane>
       </n-tabs>
     </div>
   </Layout>

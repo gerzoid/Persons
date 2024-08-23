@@ -28,6 +28,8 @@ namespace Web
             string connectionString = builder.Configuration.GetConnectionString("PrimaryDbConnection");
             builder.Services.AddDbContext<PersonsDbContext>(options => { options.UseSqlServer(connectionString); } );
 
+            builder.Services.AddHttpContextAccessor();
+            
             builder.Services.AddControllers();            
             builder.Services.AddEndpointsApiExplorer();
             
@@ -35,71 +37,21 @@ namespace Web
             #region RepoDb
             GlobalConfiguration.Setup().UseSqlServer();
             #endregion
-
-            builder.Services.AddSwaggerGen(cfg =>
-            {
-                cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "JSON Web Token to access resources. Example: Bearer {token}",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-
-                cfg.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
-                    },
-                    new [] { string.Empty }
-                }
-            });
-            });
             
+            builder.Services.AddSwaggerGen();
+            
+            builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+
             #region Maptser
             builder.Services.RegisterMapsterConfiguration();
             #endregion
 
             builder.Services.AddScoped<TablesService>();
             builder.Services.AddScoped<PersonsService>();
-            builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<ITablesRepository, TablesRepository>();
             builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
-
-            #region Identity
-
-            builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
-            builder.Services.AddSingleton<ITokenHandler, TokenHandler>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
-            builder.Services.Configure<TokenOptions>(builder.Configuration.GetSection("TokenOptions"));
-
-            var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-            var signingConfigurations = new SigningConfigurations(tokenOptions.Secret);
-            builder.Services.AddSingleton(signingConfigurations);
-
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(jwtBearerOptions =>
-            {
-                jwtBearerOptions.TokenValidationParameters =
-                    new TokenValidationParameters()
-                    {
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = tokenOptions.Issuer,
-                        ValidAudience = tokenOptions.Audience,
-                        IssuerSigningKey = signingConfigurations.SecurityKey,
-                        ClockSkew = TimeSpan.Zero
-                    };
-            });
-
-            #endregion
-            
-
-
-            //builder.Services.AddScoped<IIdentityService, IdentityService>();
 
             
             var app = builder.Build();
@@ -118,7 +70,7 @@ namespace Web
               .AllowCredentials());
             
             app.UseAuthorization();
-            //app.UseMiddleware<JwtMiddleware>();
+            app.UseMiddleware<JwtMiddleware>();
 
             app.MapControllers();
 

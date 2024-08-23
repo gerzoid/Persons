@@ -55,11 +55,11 @@ var settings = ref({
   <n-spin
     :show="personsStore.loading"
     size="large"
-    stroke="white"
-    content-style="color:white;"
+    stroke="black"
+    content-style="color:black;"
     :stroke-width="30"
   >
-    <template #description><p style="color: white">Загрузка...</p></template>
+    <template #description><p style="color: black">Загрузка...</p></template>
     <Layout>
       <div class="table">
         <div style="height: 100%">

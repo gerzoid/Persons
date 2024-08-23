@@ -11,7 +11,7 @@ var apps = createApp(App).use(Pinia);
 const authStore = useAuthStore();
 
 if (authStore.isAuthenticated && authStore.isAdmin==null) {
-  var r = await authStore.fetchUser(authStore.token);
+  var r =  authStore.fetchUser(authStore.token);
 }
 
 const authGuard = (to, from, next) => {

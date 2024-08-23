@@ -1,5 +1,5 @@
-import { reactive } from 'vue';
 import { defineStore } from 'pinia'
+import { Table } from '../models/table';
 import Api from '../utils/api';
 
 export const useTablesStore = defineStore('tablesStore', {
@@ -11,18 +11,7 @@ export const useTablesStore = defineStore('tablesStore', {
           notFoundTable: false, //Признак наличия таблицы на сервере
           checked: false, //Признак проверки наличия таблицы на сервере, влияет на кнопку Сохранить
         },
-        table:{
-          tableId:null,
-          name: null,
-          database: null,
-          shema: null,
-          tableName: null,
-          description: null,
-          countRecords:0,
-          createdAt: null,
-          updatedAt: null,
-          expiredAt: null,
-          },
+        table:new Table(),
     }),
     getters: {
     },
@@ -76,11 +65,11 @@ export const useTablesStore = defineStore('tablesStore', {
             if (this.addingNewTable) {
                 const result = await Api.CreateTable(this.table);
             }
-            if (!this.addingNewTable) {const result  = await Api.SaveTable(this.table);
+            if (!this.addingNewTable) {
+               const result  = await Api.SaveTable(this.table);
                this.table  =  result.data;
                this.addingNewTable  =  false;
-           }
-            const result = await Api.SaveTable(table, this.addingNewTable);
+            }
           }
     }
 })
