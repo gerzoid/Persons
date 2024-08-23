@@ -15,7 +15,8 @@ if (authStore.isAuthenticated && authStore.isAdmin==null) {
 }
 
 const authGuard = (to, from, next) => {
-    if (authStore.isAuthenticated) {
+  console.log(authStore.isAuthenticated);
+  if (authStore.isAuthenticated) {
       next();
     } else {
       next("/login")
@@ -23,10 +24,11 @@ const authGuard = (to, from, next) => {
   };
 
   const routes = [
+    { path: '/', name:'Main', component: ()=>import('./components/HelloWorld.vue') },
     { path: '/login', name:'Login', component:()=>import('./Pages/Login.vue')},
     { path: '/admin/table/add', name:'AddTable', component: ()=>import('./Pages/Admin/AddTable.vue'), beforeEnter: authGuard },
     { path: '/admin/table/edit/:tableId', name:'EditTable', component:()=>import('./Pages/Admin/EditTable.vue'), beforeEnter: authGuard },
-    { path: '/tables', name:'Tables', component: ()=>import('./Pages/Tables.vue'),  beforeEnter: authGuard },
+    { path: '/tables', name:'Tables', component: ()=>import('./Pages/Tables.vue'),  beforeEnter: authGuard, },
     { path: '/table/:tableId', name:'PersonsTable', component: ()=>import('./Pages/PersonsTable.vue'), beforeEnter: authGuard },
 ];
 const router = createRouter({

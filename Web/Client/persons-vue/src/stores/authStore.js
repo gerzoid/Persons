@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import api from "../utils/api";
+import { useRouter } from "vue-router";
 
 export const useAuthStore = defineStore('authStore', {
     state: () => ({
@@ -18,10 +19,10 @@ export const useAuthStore = defineStore('authStore', {
     }),
     getters: {
         isAuthenticated(){
-            return localStorage.getItem('access_token')?.length > 0;
+          return localStorage.getItem('access_token')?.length > 0 && this.user!=null;
           },
         isAdmin(){
-          return this.user.isAdmin;
+          return this.user?.isAdmin;
         },
         token(){
           return localStorage.getItem('access_token')
@@ -29,10 +30,10 @@ export const useAuthStore = defineStore('authStore', {
         },
     actions: {
       setUser(user){
-        console.log(user);
+        this.user={};
         this.user.name = user.username;
             //this.email = user.email;
-            //this.token = user.token;
+        this.user.token = user.token;
         this.user.expiration = user.expiration;
         this.user.isAdmin = user.isAdmin;
       },
@@ -46,7 +47,8 @@ export const useAuthStore = defineStore('authStore', {
           this.setUser(response.data);
          })
          .catch((error) => {
-           throw new Error("Не авторизован");
+          this.user = null;
+//          throw new Error("Не авторизован");
          }).finally(() => {
            this.loading = false;
          });
@@ -59,15 +61,20 @@ export const useAuthStore = defineStore('authStore', {
               password: this.model.password,
             })
             .then((response) => {
-              console.log(response);
-              localStorage.setItem("access_token", response.data.token);
+              localStorage.setItem("access_token", response.data.token.token); 
+              this.setUser(response.data);
+              //console.log(this.user);
             })
             .catch((error) => {
-              //console.error("1" + error);
+              console.error("1" + error);
               throw new Error("Не авторизован");
             }).finally(() => {
               this.loading = false;
             });
+      },
+      async logout(){
+        localStorage.removeItem("access_token");
+        this.user = null;
       },
     },
   })

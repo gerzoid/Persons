@@ -1,16 +1,18 @@
 using Application.Common.Mapper;
-using Application.Configuration;
 using Application.Services;
-using Domain.Identity;
+using Application.Services.Identity;
+using Application.Services.Identity.Hashing;
+using Application.Services.Identity.Interfaces;
+using Application.Services.Identity.Tokens;
 using Domain.Interfaces;
 using Infrastructure.Data.EntityFramework;
-using Infrastructure.Identity;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using RepoDb;
-using Web.Helpers;
-using Web.Middleware;
+using TokenHandler = Application.Services.Identity.Tokens.TokenHandler;
 
 namespace Web
 {
@@ -23,26 +25,6 @@ namespace Web
 
             // Add services to the container.
 
-
-            //Глобальная ауентификация
-            /*builder.Services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.SaveToken = true;
-                var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("AppSettings").Get<AppSettings>().Secret);                
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });*/
             string connectionString = builder.Configuration.GetConnectionString("PrimaryDbConnection");
             builder.Services.AddDbContext<PersonsDbContext>(options => { options.UseSqlServer(connectionString); } );
 
@@ -53,21 +35,71 @@ namespace Web
             #region RepoDb
             GlobalConfiguration.Setup().UseSqlServer();
             #endregion
-            
-            builder.Services.AddSwaggerGen();
-            
-            builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
+            builder.Services.AddSwaggerGen(cfg =>
+            {
+                cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "JSON Web Token to access resources. Example: Bearer {token}",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
 
+                cfg.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                    },
+                    new [] { string.Empty }
+                }
+            });
+            });
+            
             #region Maptser
             builder.Services.RegisterMapsterConfiguration();
             #endregion
 
             builder.Services.AddScoped<TablesService>();
             builder.Services.AddScoped<PersonsService>();
+            builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<ITablesRepository, TablesRepository>();
             builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
+
+            #region Identity
+
+            builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddSingleton<ITokenHandler, TokenHandler>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
+            builder.Services.Configure<TokenOptions>(builder.Configuration.GetSection("TokenOptions"));
+
+            var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+            var signingConfigurations = new SigningConfigurations(tokenOptions.Secret);
+            builder.Services.AddSingleton(signingConfigurations);
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(jwtBearerOptions =>
+            {
+                jwtBearerOptions.TokenValidationParameters =
+                    new TokenValidationParameters()
+                    {
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = tokenOptions.Issuer,
+                        ValidAudience = tokenOptions.Audience,
+                        IssuerSigningKey = signingConfigurations.SecurityKey,
+                        ClockSkew = TimeSpan.Zero
+                    };
+            });
+
+            #endregion
+            
+
+
+            //builder.Services.AddScoped<IIdentityService, IdentityService>();
 
             
             var app = builder.Build();
@@ -86,7 +118,7 @@ namespace Web
               .AllowCredentials());
             
             app.UseAuthorization();
-            app.UseMiddleware<JwtMiddleware>();
+            //app.UseMiddleware<JwtMiddleware>();
 
             app.MapControllers();
 

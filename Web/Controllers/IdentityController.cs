@@ -1,8 +1,10 @@
 ﻿using Application.Common.Models;
+using Application.Services;
+using Application.Services.Identity.Interfaces;
 using Domain.Entities;
-using Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Web.Controllers
 {
@@ -12,24 +14,29 @@ namespace Web.Controllers
     {
         [HttpPost("check")]
         [AllowAnonymous]
-        public IActionResult Check(IIdentityService userService)
+        public IActionResult Check(UserService userService)
         {
-            if (HttpContext.Items.TryGetValue("User", out var userObject) && userObject is User user)
-                return Ok(new AuthenticateResponse(user,""));
+            
+            if (User.Identity.IsAuthenticated)
+            {
+                int id = Convert.ToInt32(((IEnumerable<Claim>)User.Claims).Where(x => x.Type == "id").First().Value);
+                return Ok(new AuthenticateResponse(userService.Get(id), ""));
+            }
             return Unauthorized();
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public IActionResult Login(AuthenticateRequest model, IIdentityService userService)
+        public async Task<IActionResult> Login(AuthenticateRequest model, IIdentityService userService)
         {
-            var user = userService.Authenticate(model.Username, model.Password);
+            var user = userService.CreateAccessTokenAsync(model.Username, model.Password);
             if (user == null)
                 return Unauthorized();
 
-            var token = userService.GenerateJwtToken(user);
+            var token = await userService.CreateAccessTokenAsync(model.Username, model.Password);
 
-            return Ok(new AuthenticateResponse(user, token));
+            return Ok(token);
+            //return Ok(new AuthenticateResponse(user, token));
         }
     }
 }

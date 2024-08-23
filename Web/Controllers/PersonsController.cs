@@ -1,6 +1,8 @@
 using Application.Common.Dto;
 using Application.Common.Models;
+using Application.Common.Models.Response;
 using Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Web.Helpers;
@@ -10,7 +12,7 @@ namespace Web.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors]
-    //[Authorize]
+    [Authorize]
     public class PersonsController : ControllerBase
     {
         private readonly ILogger<PersonsController> _logger;

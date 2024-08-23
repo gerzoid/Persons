@@ -12,6 +12,7 @@ const authStore = useAuthStore();
 function login() {
   authStore.login().then(() => {
     router.push("/tables");
+    //router.push("/");
   });
 }
 

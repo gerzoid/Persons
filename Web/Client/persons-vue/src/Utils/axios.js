@@ -12,7 +12,6 @@ axio.interceptors.request.use(
       if (localStorage.access_token) {
         config.headers.authorization = `Bearer ${localStorage.access_token}`;
       }
-      //Надо возвращать конфиг после его модификации
       return config;
     },
     (error) => {
@@ -51,24 +50,9 @@ axio.interceptors.request.use(
           });
       }
 
-      if (error.response.status === 401) {
-        console.log('not logged');
-        router.push("/login");
-      }
+      // if (error.response.status === 401) {
+      //   console.log('not logged!');
+      // }
       return Promise.reject(error); // Передаем ошибку дальше
     }
   );
-
-/*axio.interceptors.request.use((config) => {
-    const userId = 'id'; // Предполагается, что id хранится в корне state
-
-    // Добавляем id в параметры запроса
-    // Добавляем id в тело запроса, если это POST-запрос
-    if (config.method === 'post' || config.method === 'put' || config.method === 'delete') {
-        config.data = { ...config.data, userId };
-    }
-
-    return config;
-  }, (error) => {
-    return Promise.reject(error);
-});*/

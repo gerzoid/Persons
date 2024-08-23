@@ -2,6 +2,7 @@ using Application.Common.Dto;
 using Application.Common.Models;
 using Application.Services;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ namespace Web.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors]
-    //[Authorize]
+    [Authorize(Roles = "Administrator")]
     public class TablesController : ControllerBase
     {
         private readonly ILogger<TablesController> _logger;

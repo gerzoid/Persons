@@ -2,12 +2,21 @@
 import VerticalMenu from "../menu/VerticalMenu.vue";
 import HorizontalMenu from "../menu/HorizontalMenu.vue";
 import { NLayout } from "naive-ui";
+import { useAuthStore } from "../../stores/authStore";
+import { Refresh } from "@vicons/ionicons5";
+
+const authStore = useAuthStore();
+function logout() {
+  authStore.logout();
+  location.reload();
+}
 </script>
 
 <template>
   <div class="main">
     <router-view> </router-view>
     <n-layout>
+      <button @click="logout">Выйти</button>
       <!--<HorizontalMenu></HorizontalMenu>-->
       <n-layout has-sider style="height: 100%">
         <VerticalMenu></VerticalMenu>

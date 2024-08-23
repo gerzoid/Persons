@@ -1,5 +1,4 @@
 import  {axio} from "./axios";
-import { useRouter, useRoute } from "vue-router";
 
 
 export default class api{
