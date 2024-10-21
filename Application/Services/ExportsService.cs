@@ -32,7 +32,7 @@ public class ExportsService(IPersonsRepository personsRepository)
 
         var workSheet = package.Workbook.Worksheets.Add("Sheet1");
         
-        workSheet.Cells.loadfromLoadFromDataReader(table, true);
+        //workSheet.Cells.LoadFromDataReader(table, true);
 
         workSheet.Cells.LoadFromDataTable(table, true);
 

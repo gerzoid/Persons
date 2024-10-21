@@ -1,7 +1,7 @@
 ﻿using Application.Common.Dto;
 using Application.Common.Models;
+using Application.Services.Identity.Interfaces;
 using Domain.Entities;
-using Domain.Identity;
 using Domain.Interfaces;
 using Mapster;
 using Microsoft.AspNetCore.Http;
@@ -9,10 +9,10 @@ using System.Web.Http;
 
 namespace Application.Services;
 
-public class TablesService(ITablesRepository tablesRepo, IIdentityService identity)
+public class TablesService(ITablesRepository tablesRepo, UserService userService)
 {
     private readonly ITablesRepository _tablesRepo = tablesRepo;
-    private readonly IIdentityService _identity =identity;
+    private readonly UserService _userService = userService;
 
     public async Task<IEnumerable<TablesDto>> GetTablesAsync()
     {
@@ -31,7 +31,8 @@ public class TablesService(ITablesRepository tablesRepo, IIdentityService identi
     {
         var tab = table.Adapt<Tables>();
         tab.CreatedAt = DateTime.Now;
-        var user = _identity.GetCurrentUser();
+        //var user = _identity.GetCurrentUser();
+        var user = _userService.Users()[0]; //TODO 
         tab.UserId = user!=null ? user.Id : 0;                
 
         return await _tablesRepo.CreateTableAsync(tab);
